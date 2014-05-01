@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npnets:NPnetMarked xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:hlpn="mathtech.ru/npntool/hlpn" xmlns:npndiagrams="http:/mathtech.ru/npntool/npndiagrams" xmlns:npnets="mathtech.ru/npntool/npnets" uuid="npne2724a00-b93c-42f1-b97f-345eff535708">
+  <net uuid="npn85d2e56e-dc1b-429c-9760-550cea5c76ce" name="Untitled NPN">
+    <netSystem uuid="npn35404f12-9fb3-48a9-9f18-ecfb721991f1" name="Untitled SN">
+      <nodes xsi:type="hlpn:Place" uuid="npn43edb94f-9c50-4895-81f7-fde2b9bc7482" name="AAA" outArcs="#npncdfb236a-3050-4fe8-bc1d-f3897bf458f2 #npna3e29d70-1819-4752-a00c-0505cfccfdba"/>
+      <nodes xsi:type="hlpn:Place" uuid="npn1fc7f7ba-427d-4564-b27d-46f2caf4433a" name="BBB" inArcs="#npn67164345-48fa-4f00-bb01-08208b19d24b #npn3af7dde3-23b9-4466-8d46-7f3a021ca884"/>
+      <nodes xsi:type="hlpn:Transition" uuid="npnd0100378-b8f2-47eb-b6e1-2fa47c58262f" name="T1" inArcs="#npncdfb236a-3050-4fe8-bc1d-f3897bf458f2 #npnfdb33f3a-b0c9-4592-88e2-4419597faee1"/>
+      <nodes xsi:type="hlpn:Transition" uuid="npn47981d1f-3d0a-4f18-b754-5e14ba4461af" name="T2" inArcs="#npn30bd2744-8cea-4ea5-a3eb-8d87ae995a0f #npna3e29d70-1819-4752-a00c-0505cfccfdba #npnca149be2-3b23-449a-8a0e-5d3c66ffca6f" outArcs="#npn67164345-48fa-4f00-bb01-08208b19d24b"/>
+      <nodes xsi:type="hlpn:Transition" uuid="npn61f2189b-0957-448c-8709-edd9bf3fd359" name="E" inArcs="#npn747a528f-0c8d-4c09-8d2e-9694b1d375c1" outArcs="#npn50c9b646-a981-4850-b81f-decc2f8a53c8"/>
+      <nodes xsi:type="hlpn:Place" uuid="npn8e3f9916-b74e-4152-8a7f-dd6d0b7e603b" name="C" outArcs="#npn747a528f-0c8d-4c09-8d2e-9694b1d375c1 #npnca149be2-3b23-449a-8a0e-5d3c66ffca6f" inArcs="#npn01730764-4dd3-4bea-8df8-cc128af29f6f"/>
+      <nodes xsi:type="hlpn:Transition" uuid="npn9959b76e-3eb6-41c0-98b9-752b3f3cbe6e" name="W" inArcs="#npna2d02bd9-b856-4fb9-9ba0-b7db7b86e0f4" outArcs="#npn01730764-4dd3-4bea-8df8-cc128af29f6f #npnf6bd246a-2347-4533-8580-ec525cb71184"/>
+      <nodes xsi:type="hlpn:Place" uuid="npn85079cd6-56dd-4c5d-bf5f-7f382bed0d2a" name="E" outArcs="#npna2d02bd9-b856-4fb9-9ba0-b7db7b86e0f4 #npn30bd2744-8cea-4ea5-a3eb-8d87ae995a0f"/>
+      <nodes xsi:type="hlpn:Place" uuid="npn9f240761-3356-4e87-8e54-b8122091e224" name="Q" outArcs="#npnfdb33f3a-b0c9-4592-88e2-4419597faee1" inArcs="#npnf6bd246a-2347-4533-8580-ec525cb71184"/>
+      <nodes xsi:type="hlpn:Place" uuid="npn3f460be0-e07c-47c9-8bde-1429c42af7d8" name="T" outArcs="#npn4e4878d0-52b4-4cb2-adbc-39c5924e7357" inArcs="#npn50c9b646-a981-4850-b81f-decc2f8a53c8"/>
+      <nodes xsi:type="hlpn:Transition" uuid="npndad16448-51f1-4576-83bd-0f9ab527b3b1" name="R" inArcs="#npn4e4878d0-52b4-4cb2-adbc-39c5924e7357" outArcs="#npn3af7dde3-23b9-4466-8d46-7f3a021ca884"/>
+      <arcs xsi:type="hlpn:ArcPT" uuid="npncdfb236a-3050-4fe8-bc1d-f3897bf458f2" source="#npn43edb94f-9c50-4895-81f7-fde2b9bc7482" target="#npnd0100378-b8f2-47eb-b6e1-2fa47c58262f"/>
+      <arcs xsi:type="hlpn:ArcTP" uuid="npn67164345-48fa-4f00-bb01-08208b19d24b" source="#npn47981d1f-3d0a-4f18-b754-5e14ba4461af" target="#npn1fc7f7ba-427d-4564-b27d-46f2caf4433a"/>
+      <arcs xsi:type="hlpn:ArcTP" uuid="npn01730764-4dd3-4bea-8df8-cc128af29f6f" source="#npn9959b76e-3eb6-41c0-98b9-752b3f3cbe6e" target="#npn8e3f9916-b74e-4152-8a7f-dd6d0b7e603b"/>
+      <arcs xsi:type="hlpn:ArcPT" uuid="npn747a528f-0c8d-4c09-8d2e-9694b1d375c1" source="#npn8e3f9916-b74e-4152-8a7f-dd6d0b7e603b" target="#npn61f2189b-0957-448c-8709-edd9bf3fd359"/>
+      <arcs xsi:type="hlpn:ArcTP" uuid="npn50c9b646-a981-4850-b81f-decc2f8a53c8" source="#npn61f2189b-0957-448c-8709-edd9bf3fd359" target="#npn3f460be0-e07c-47c9-8bde-1429c42af7d8"/>
+      <arcs xsi:type="hlpn:ArcPT" uuid="npn4e4878d0-52b4-4cb2-adbc-39c5924e7357" source="#npn3f460be0-e07c-47c9-8bde-1429c42af7d8" target="#npndad16448-51f1-4576-83bd-0f9ab527b3b1"/>
+      <arcs xsi:type="hlpn:ArcTP" uuid="npn3af7dde3-23b9-4466-8d46-7f3a021ca884" source="#npndad16448-51f1-4576-83bd-0f9ab527b3b1" target="#npn1fc7f7ba-427d-4564-b27d-46f2caf4433a"/>
+      <arcs xsi:type="hlpn:ArcPT" uuid="npna2d02bd9-b856-4fb9-9ba0-b7db7b86e0f4" source="#npn85079cd6-56dd-4c5d-bf5f-7f382bed0d2a" target="#npn9959b76e-3eb6-41c0-98b9-752b3f3cbe6e"/>
+      <arcs xsi:type="hlpn:ArcTP" uuid="npnf6bd246a-2347-4533-8580-ec525cb71184" source="#npn9959b76e-3eb6-41c0-98b9-752b3f3cbe6e" target="#npn9f240761-3356-4e87-8e54-b8122091e224"/>
+      <arcs xsi:type="hlpn:ArcPT" uuid="npnfdb33f3a-b0c9-4592-88e2-4419597faee1" source="#npn9f240761-3356-4e87-8e54-b8122091e224" target="#npnd0100378-b8f2-47eb-b6e1-2fa47c58262f"/>
+      <arcs xsi:type="hlpn:ArcPT" uuid="npn30bd2744-8cea-4ea5-a3eb-8d87ae995a0f" source="#npn85079cd6-56dd-4c5d-bf5f-7f382bed0d2a" target="#npn47981d1f-3d0a-4f18-b754-5e14ba4461af"/>
+      <arcs xsi:type="hlpn:ArcPT" uuid="npna3e29d70-1819-4752-a00c-0505cfccfdba" source="#npn43edb94f-9c50-4895-81f7-fde2b9bc7482" target="#npn47981d1f-3d0a-4f18-b754-5e14ba4461af"/>
+      <arcs xsi:type="hlpn:ArcPT" uuid="npnca149be2-3b23-449a-8a0e-5d3c66ffca6f" source="#npn8e3f9916-b74e-4152-8a7f-dd6d0b7e603b" target="#npn47981d1f-3d0a-4f18-b754-5e14ba4461af"/>
+    </netSystem>
+  </net>
+  <diagramNetSystem uuid="npn566e0ea8-606c-4113-a0c4-9901452a419f" model="#npn35404f12-9fb3-48a9-9f18-ecfb721991f1">
+    <nodes xsi:type="npndiagrams:NPNSymbolPlaceSN" uuid="npnfeaf57a5-399b-46b2-8fa5-68569739ccd9" constraints="88,71,80,50" model="#npn43edb94f-9c50-4895-81f7-fde2b9bc7482" outArcs="#npn0e2926d4-7fe9-4f1d-8062-e0ed3d7d8dff #npnc3503168-a951-4639-ad1e-c014a7b1458e"/>
+    <nodes xsi:type="npndiagrams:NPNSymbolPlaceSN" uuid="npn624631ed-5754-4329-8f11-faf0ee1b05ee" constraints="275,75,80,50" model="#npn1fc7f7ba-427d-4564-b27d-46f2caf4433a" inArcs="#npnee45eb81-b077-4008-92ed-cdddc7657380 #npn861496ad-3bd3-4018-b1f9-9d845b844aec"/>
+    <nodes xsi:type="npndiagrams:NPNSymbolTransitionSN" uuid="npn326c8be5-0159-4103-9d49-a7177a391033" constraints="47,239,80,50" model="#npnd0100378-b8f2-47eb-b6e1-2fa47c58262f" inArcs="#npn0e2926d4-7fe9-4f1d-8062-e0ed3d7d8dff #npn6e6e68a6-a0e4-4a41-a9f7-dc551d71b098"/>
+    <nodes xsi:type="npndiagrams:NPNSymbolTransitionSN" uuid="npn98b5e084-4cc4-4439-b07c-adb78a82acb8" constraints="272,267,80,50" model="#npn47981d1f-3d0a-4f18-b754-5e14ba4461af" outArcs="#npnee45eb81-b077-4008-92ed-cdddc7657380" inArcs="#npn6be67e8d-5d08-4850-9cc9-cf8c3e36956a #npnc3503168-a951-4639-ad1e-c014a7b1458e #npn1e7b250e-661a-49d4-8dd1-a3f15197d041"/>
+    <nodes xsi:type="npndiagrams:NPNSymbolTransitionSN" uuid="npnf53d2bc6-6a8d-458a-a1d3-e3ff842f7d16" constraints="476,200,80,50" model="#npn61f2189b-0957-448c-8709-edd9bf3fd359" outArcs="#npne358de29-ea25-43e0-abd4-97b0825f9432" inArcs="#npn9ee642ad-86d4-4a78-a7e9-94d9da51953e"/>
+    <nodes xsi:type="npndiagrams:NPNSymbolPlaceSN" uuid="npna9b04b8a-fa0e-4e64-a09b-9d0bbd2adb58" constraints="601,431,80,50" model="#npn8e3f9916-b74e-4152-8a7f-dd6d0b7e603b" outArcs="#npn9ee642ad-86d4-4a78-a7e9-94d9da51953e #npn1e7b250e-661a-49d4-8dd1-a3f15197d041" inArcs="#npnd1583380-5fae-4921-8e2e-ee62e4ff4a6a"/>
+    <nodes xsi:type="npndiagrams:NPNSymbolTransitionSN" uuid="npn91e14610-c1a3-44bc-bcfb-96f23e9ad1f6" constraints="367,362,80,50" model="#npn9959b76e-3eb6-41c0-98b9-752b3f3cbe6e" outArcs="#npnd1583380-5fae-4921-8e2e-ee62e4ff4a6a #npnd57f1fb1-d189-469e-894c-88010a76157a" inArcs="#npnda42928c-4d63-4e99-b376-6858cb56c847"/>
+    <nodes xsi:type="npndiagrams:NPNSymbolPlaceSN" uuid="npn267ab70e-f97a-414c-9ffd-5f0ca5db57b9" constraints="250,417,80,50" model="#npn85079cd6-56dd-4c5d-bf5f-7f382bed0d2a" outArcs="#npnda42928c-4d63-4e99-b376-6858cb56c847 #npn6be67e8d-5d08-4850-9cc9-cf8c3e36956a"/>
+    <nodes xsi:type="npndiagrams:NPNSymbolPlaceSN" uuid="npnd1373108-a896-49a9-8617-9a05add76624" constraints="71,417,80,50" model="#npn9f240761-3356-4e87-8e54-b8122091e224" outArcs="#npn6e6e68a6-a0e4-4a41-a9f7-dc551d71b098" inArcs="#npnd57f1fb1-d189-469e-894c-88010a76157a"/>
+    <nodes xsi:type="npndiagrams:NPNSymbolPlaceSN" uuid="npn0670f66b-5242-4f82-99b3-a4d4a0acba5f" constraints="517,48,80,50" model="#npn3f460be0-e07c-47c9-8bde-1429c42af7d8" outArcs="#npn63863851-408d-44ba-a924-6112fad1411f" inArcs="#npne358de29-ea25-43e0-abd4-97b0825f9432"/>
+    <nodes xsi:type="npndiagrams:NPNSymbolTransitionSN" uuid="npn04bb2930-f4a7-4cd7-a495-14cc903703bb" constraints="416,140,80,50" model="#npndad16448-51f1-4576-83bd-0f9ab527b3b1" outArcs="#npn861496ad-3bd3-4018-b1f9-9d845b844aec" inArcs="#npn63863851-408d-44ba-a924-6112fad1411f"/>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcPTSN" uuid="npn0e2926d4-7fe9-4f1d-8062-e0ed3d7d8dff" model="#npncdfb236a-3050-4fe8-bc1d-f3897bf458f2" target="#npn326c8be5-0159-4103-9d49-a7177a391033" source="#npnfeaf57a5-399b-46b2-8fa5-68569739ccd9"/>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcTPSN" uuid="npnee45eb81-b077-4008-92ed-cdddc7657380" model="#npn67164345-48fa-4f00-bb01-08208b19d24b" target="#npn624631ed-5754-4329-8f11-faf0ee1b05ee" source="#npn98b5e084-4cc4-4439-b07c-adb78a82acb8">
+      <bendpoints>364,188</bendpoints>
+      <bendpoints>282,172</bendpoints>
+    </arcs>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcTPSN" uuid="npnd1583380-5fae-4921-8e2e-ee62e4ff4a6a" model="#npn01730764-4dd3-4bea-8df8-cc128af29f6f" target="#npna9b04b8a-fa0e-4e64-a09b-9d0bbd2adb58" source="#npn91e14610-c1a3-44bc-bcfb-96f23e9ad1f6"/>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcPTSN" uuid="npn9ee642ad-86d4-4a78-a7e9-94d9da51953e" model="#npn747a528f-0c8d-4c09-8d2e-9694b1d375c1" target="#npnf53d2bc6-6a8d-458a-a1d3-e3ff842f7d16" source="#npna9b04b8a-fa0e-4e64-a09b-9d0bbd2adb58">
+      <bendpoints>725,265</bendpoints>
+    </arcs>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcTPSN" uuid="npne358de29-ea25-43e0-abd4-97b0825f9432" model="#npn50c9b646-a981-4850-b81f-decc2f8a53c8" target="#npn0670f66b-5242-4f82-99b3-a4d4a0acba5f" source="#npnf53d2bc6-6a8d-458a-a1d3-e3ff842f7d16"/>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcPTSN" uuid="npn63863851-408d-44ba-a924-6112fad1411f" model="#npn4e4878d0-52b4-4cb2-adbc-39c5924e7357" target="#npn04bb2930-f4a7-4cd7-a495-14cc903703bb" source="#npn0670f66b-5242-4f82-99b3-a4d4a0acba5f"/>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcTPSN" uuid="npn861496ad-3bd3-4018-b1f9-9d845b844aec" model="#npn3af7dde3-23b9-4466-8d46-7f3a021ca884" target="#npn624631ed-5754-4329-8f11-faf0ee1b05ee" source="#npn04bb2930-f4a7-4cd7-a495-14cc903703bb"/>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcPTSN" uuid="npnda42928c-4d63-4e99-b376-6858cb56c847" model="#npna2d02bd9-b856-4fb9-9ba0-b7db7b86e0f4" target="#npn91e14610-c1a3-44bc-bcfb-96f23e9ad1f6" source="#npn267ab70e-f97a-414c-9ffd-5f0ca5db57b9"/>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcTPSN" uuid="npnd57f1fb1-d189-469e-894c-88010a76157a" model="#npnf6bd246a-2347-4533-8580-ec525cb71184" target="#npnd1373108-a896-49a9-8617-9a05add76624" source="#npn91e14610-c1a3-44bc-bcfb-96f23e9ad1f6"/>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcPTSN" uuid="npn6e6e68a6-a0e4-4a41-a9f7-dc551d71b098" model="#npnfdb33f3a-b0c9-4592-88e2-4419597faee1" target="#npn326c8be5-0159-4103-9d49-a7177a391033" source="#npnd1373108-a896-49a9-8617-9a05add76624"/>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcPTSN" uuid="npn6be67e8d-5d08-4850-9cc9-cf8c3e36956a" model="#npn30bd2744-8cea-4ea5-a3eb-8d87ae995a0f" target="#npn98b5e084-4cc4-4439-b07c-adb78a82acb8" source="#npn267ab70e-f97a-414c-9ffd-5f0ca5db57b9"/>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcPTSN" uuid="npnc3503168-a951-4639-ad1e-c014a7b1458e" model="#npna3e29d70-1819-4752-a00c-0505cfccfdba" target="#npn98b5e084-4cc4-4439-b07c-adb78a82acb8" source="#npnfeaf57a5-399b-46b2-8fa5-68569739ccd9">
+      <bendpoints>166,166</bendpoints>
+      <bendpoints>220,165</bendpoints>
+      <bendpoints>184,239</bendpoints>
+      <bendpoints>251,233</bendpoints>
+    </arcs>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcPTSN" uuid="npn1e7b250e-661a-49d4-8dd1-a3f15197d041" model="#npnca149be2-3b23-449a-8a0e-5d3c66ffca6f" target="#npn98b5e084-4cc4-4439-b07c-adb78a82acb8" source="#npna9b04b8a-fa0e-4e64-a09b-9d0bbd2adb58"/>
+  </diagramNetSystem>
+</npnets:NPnetMarked>
