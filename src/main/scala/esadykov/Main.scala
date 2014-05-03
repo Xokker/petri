@@ -6,7 +6,8 @@ package esadykov
  */
 object Main {
     def main(args: Array[String]) {
-        val res = XmlNetReader.readNodes("net1.xml")
-        println(res)
+        val res = XmlNetManager.readNetElements("net1.xml")
+        println(res.mkString("\n"))
+        XmlNetManager.connectNodes(res)
     }
 }
