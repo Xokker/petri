@@ -12,9 +12,7 @@ object Main {
         println(res.mkString("\n"))
         XmlNetManager.connectNodes(res)
 
-        val source: NetElement = res.values
-            .find(el => el.isInstanceOf[NetNode] && el.asInstanceOf[NetNode].source)
-            .get
+        val source = NetNode.findSource(res.values)
 
         println(source)
     }
