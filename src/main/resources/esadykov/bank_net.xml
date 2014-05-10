@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npnets:NPnetMarked xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:hlpn="http://mathtech.ru/npntool/hlpn"
+    xmlns:npnets="mathtech.ru/npntool/npnets" uuid="npne2724a00-b93c-42f1-b97f-345eff535708">
+    <net uuid="id00001" name="Untitled NPN">
+        <netSystem uuid="id00001" name="Bank SN">
+            <nodes xsi:type="hlpn:Place" uuid="p001" name="source"/>
+            <nodes xsi:type="hlpn:Place" uuid="p002" name="p2"/>
+            <nodes xsi:type="hlpn:Place" uuid="p003" name="p3"/>
+            <nodes xsi:type="hlpn:Place" uuid="p004" name="p4"/>
+            <nodes xsi:type="hlpn:Place" uuid="p005" name="p5"/>
+            <nodes xsi:type="hlpn:Place" uuid="p006" name="p6"/>
+            <nodes xsi:type="hlpn:Place" uuid="p007" name="p7"/>
+            <nodes xsi:type="hlpn:Place" uuid="p008" name="sink"/>
+            <nodes xsi:type="hlpn:Place" uuid="o001" name="O:CD"/>
+            <nodes xsi:type="hlpn:Place" uuid="i001" name="I:CR"/>
+            <nodes xsi:type="hlpn:Place" uuid="i002" name="I:A"/>
+            <nodes xsi:type="hlpn:Place" uuid="o002" name="O:E"/>
+
+            <nodes xsi:type="hlpn:Transition" uuid="t001" name="t1"/>
+            <nodes xsi:type="hlpn:Transition" uuid="t002" name="t2"/>
+            <nodes xsi:type="hlpn:Transition" uuid="t003" name="t3"/>
+            <nodes xsi:type="hlpn:Transition" uuid="t004" name="t4"/>
+            <nodes xsi:type="hlpn:Transition" uuid="t005" name="t5"/>
+            <nodes xsi:type="hlpn:Transition" uuid="t006" name="t6"/>
+            <nodes xsi:type="hlpn:Transition" uuid="t007" name="t7"/>
+            <nodes xsi:type="hlpn:Transition" uuid="t008" name="t8"/>
+            <nodes xsi:type="hlpn:Transition" uuid="t009" name="t9"/>
+            <nodes xsi:type="hlpn:Transition" uuid="t010" name="t10"/>
+
+            <arcs xsi:type="hlpn:ArcPT" uuid="a001" name="a1" source="#p001" target="#t002"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a002" name="a2" source="#t002" target="#o001"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a003" name="a3" source="#t002" target="#p002"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a004" name="a4" source="#p002" target="#t003"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a005" name="a5" source="#i001" target="#t003"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a006" name="a6" source="#t003" target="#p003"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a007" name="a7" source="#p003" target="#t001"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a008" name="a8" source="#t001" target="#p001"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a009" name="a9" source="#p003" target="#t004"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a010" name="a10" source="#t004" target="#p004"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a011" name="a11" source="#p004" target="#t006"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a012" name="a12" source="#t006" target="#p005"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a013" name="a13" source="#i002" target="#t006"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a014" name="a14" source="#p005" target="#t005"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a015" name="a15" source="#t005" target="#p004"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a016" name="a16" source="#p005" target="#t007"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a017" name="a17" source="#t007" target="#o002"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a018" name="a18" source="#t007" target="#p008"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a019" name="a19" source="#p003" target="#t008"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a020" name="a20" source="#t008" target="#p006"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a021" name="a21" source="#p006" target="#t009"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a022" name="a22" source="#t009" target="#o001"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a023" name="a23" source="#t009" target="#p007"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a024" name="a24" source="#p007" target="#t010"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a025" name="a25" source="#t010" target="#p008"/>
+            <arcs xsi:type="hlpn:ArcPT" uuid="a026" name="a26" source="#t010" target="#o002"/>
+        </netSystem>
+    </net>
+</npnets:NPnetMarked>

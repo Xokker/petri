@@ -17,17 +17,11 @@ object XmlNetManager {
                 (elems: Map[String, NetElement], elem: (String, NetElement)) => elems + elem)
     }
 
-    def connectNodes[T <: NetElement](elements: Map[String, T]) = {
-        val source = elements.find(elem => elem._2 match {
-            case node: NetNode => node.source
-            case _ => false
-        }).get._2
-
+    def connectNodes[T <: NetElement](elements: Map[String, T]) =
         for ((key, value) <- elements if value.isInstanceOf[NetArc]) {
             val arc = value.asInstanceOf[NetArc]
-            elements(arc.fromId).asInstanceOf[NetNode]
+            elements(arc.fromId)
+                .asInstanceOf[NetNode]
                 .connectWith(elements(arc.toId).asInstanceOf[NetNode])
         }
-        println(elements.count(elem => !elem._2.isInstanceOf[NetArc]) + " nodes")
-    }
 }
