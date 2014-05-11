@@ -2,9 +2,6 @@ package esadykov.nets
 
 import scala.collection.Iterable
 import esadykov.expressions._
-import esadykov.expressions.Input
-import esadykov.expressions.Output
-import esadykov.expressions.Circle
 
 /**
  * @author Ernest Sadykov
@@ -63,11 +60,15 @@ object NetNode {
                 val loopCandidates: Array[Expression] =
                     nonOutput
                         .map(traverse(_, Set.empty, Empty(), inputs, start).normalize)
-                val newNewExpression = Circle(newExpression, loopCandidates.foldLeft[Expression](Empty())((ex, el) => Circle(ex, Star(el))))
+                val newNewExpression = Circle(newExpression, loopCandidates.foldLeft[Expression](Empty()) {
+                    (ex, el) => Circle(ex, Star(el))
+                })
 
                 nonOutput
                     .map(node => traverse(node, wereThere + start, newNewExpression, inputs, destination))
-                    .foldLeft[Expression](Empty())((exp, el) => Oplus(exp, el))
+                    .foldLeft[Expression](Empty()) {
+                        (exp, el) => Oplus(exp, el)
+                    }
             }
         }
     }
