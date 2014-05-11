@@ -59,10 +59,16 @@ object NetNode {
 
             if (nonOutput.length == 1)
                 traverse(nonOutput.head, wereThere + start, newExpression, inputs, destination)
-            else
+            else {
+                val loopCandidates: Array[Expression] =
+                    nonOutput
+                        .map(traverse(_, Set.empty, Empty(), inputs, start).normalize)
+                val newNewExpression = Circle(newExpression, loopCandidates.foldLeft[Expression](Empty())((ex, el) => Circle(ex, Star(el))))
+
                 nonOutput
-                    .map(node => traverse(node, wereThere + start, newExpression, inputs, destination))
+                    .map(node => traverse(node, wereThere + start, newNewExpression, inputs, destination))
                     .foldLeft[Expression](Empty())((exp, el) => Oplus(exp, el))
+            }
         }
     }
 }
