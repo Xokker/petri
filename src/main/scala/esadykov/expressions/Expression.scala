@@ -9,6 +9,8 @@ abstract class Expression {
 
     def atomic: Boolean = false
 
+    def toString(noParen: Boolean): String = toString
+
     // TODO: works incorrectly
     def components(): Array[Map[String, Component]] = {
         def extract(exp: Expression, insideStar: Boolean, acc: Map[String, Component]): Map[String, Component] = {

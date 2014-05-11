@@ -27,6 +27,6 @@ object Main {
                 .toSet,
             destination = NetNode.findSink(res.values)
         )
-        println(generatedExpression.normalize.normalize)
+        println(generatedExpression.normalize.normalize.toString(noParen = true))
     }
 }

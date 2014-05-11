@@ -5,7 +5,7 @@ package esadykov.expressions
  * @since 04.05.2014
  */
 case class Star(exp: Expression) extends Expression {
-    override def toString = /*if (!exp.atomic) "("+exp+")*" else*/ exp+"*"
+    override def toString = exp+"*"
 
     override def normalize = this match {
         case Star(Star(ex)) => ex.normalize
