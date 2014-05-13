@@ -30,12 +30,16 @@ object Expression {
 
 
     def main(args: Array[String]) {
-        val expression: Expression = Circle(Star(Circle(Output("CD"), Input("CR"))),
-            Oplus(Circle(Star(Input("A")), Output("E")), Circle(Output("CD"), Output("E"))))
+        val expression: Expression = Circle(Star(Circle(Output("CD"),
+                                                        Input("CR"))),
+                                            Oplus(Circle(Star(Input("A")),
+                                                         Output("E")),
+                                                  Circle(Output("CD"),
+                                                         Output("E"))))
 
         println(expression)
 
-        val normalized: Expression = expression.normalize
+        val normalized: Expression = expression.normalize()
         println(normalized)
 
         println(components(normalized).mkString("\n"))
