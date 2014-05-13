@@ -14,7 +14,7 @@ case class Oplus(left: Expression, right: Expression) extends Expression {
         else "(" + l + "⊕" + r + ")"
     }
 
-    override def normalize =
+    override def normalize() =
         if (left == right) left.normalize
         else this match {
             case Oplus(_, Empty()) => left.normalize

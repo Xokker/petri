@@ -14,7 +14,7 @@ case class Circle(left: Expression, right: Expression) extends Expression {
         else "(" + l + "◦" + r + ")"
     }
 
-    override def normalize = this match {
+    override def normalize() = this match {
         case Circle(_, Oplus(oleft, oright)) => Oplus(Circle(left.normalize, oleft.normalize), Circle(left.normalize, oright.normalize)).normalize
         case Circle(Oplus(oleft, oright), _) => Circle(right, left).normalize
         case Circle(_, Empty()) => left.normalize

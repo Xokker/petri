@@ -1,7 +1,7 @@
 package esadykov
 
 import esadykov.nets.{NetElement, NetNode}
-import esadykov.expressions.Empty
+import esadykov.expressions.{Expression, Empty}
 
 /**
  * @author Ernest Sadykov
@@ -27,6 +27,8 @@ object Main {
                 .toSet,
             destination = NetNode.findSink(res.values)
         )
-        println(generatedExpression.normalize.normalize.toString(noParen = true))
+        val normalized: Expression = generatedExpression.normalize().normalize()
+        println(normalized.toString(noParen = true))
+        println(Expression.components(normalized).mkString("\n"))
     }
 }

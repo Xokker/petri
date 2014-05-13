@@ -7,7 +7,7 @@ package esadykov.expressions
 case class Star(exp: Expression) extends Expression {
     override def toString = exp+"*"
 
-    override def normalize = this match {
+    override def normalize() = this match {
         case Star(Star(ex)) => ex.normalize
         case Star(Oplus(e1, e2)) => Circle(Star(e1.normalize), Star(e2.normalize)).normalize
         case Star(Circle(ex1, Star(ex))) => Circle(Star(ex1.normalize), Star(ex.normalize)).normalize
