@@ -28,7 +28,7 @@ object Expression {
         }
     }
 
-    def componentsForAlgebra(components: List[Expression], acc: Map[String, Set[String]], counter: Int): Map[String, Set[String]] = {
+    private def componentsForAlgebra(components: List[Expression], acc: Map[String, Set[String]], counter: Int): Map[String, Set[String]] = {
         def newAccDouble(id1: String, id2: String) = {
             val set1: Set[String] = acc.getOrElse(id1, Set.empty[String]) + ("n" + counter)
             val set2: Set[String] = acc.getOrElse(id2, Set.empty[String]) + ("n" + counter)
@@ -62,6 +62,9 @@ object Expression {
         }
     }
 
+    def componentsForAlgebra(components: List[Expression]): Map[String, Set[String]] =
+        componentsForAlgebra(components, Map.empty[String, Set[String]], 1)
+
 
     def main(args: Array[String]) {
         val expression: Expression = Circle(Star(Circle(Output("CD"),
@@ -70,15 +73,10 @@ object Expression {
                                                          Output("E")),
                                                   Circle(Output("CD"),
                                                          Output("E"))))
-
-        println(expression)
-
         val normalized: Expression = expression.normalize()
-        println(normalized)
-
         val components1: List[List[Expression]] = components(normalized)
         println(components1.mkString("\n"))
-        
-        println(componentsForAlgebra(components1.head, Map.empty[String, Set[String]], 1))
+
+        println(componentsForAlgebra(components1.head))
     }
 }

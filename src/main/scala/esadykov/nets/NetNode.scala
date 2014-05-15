@@ -76,13 +76,8 @@ object NetNode {
 
     def main(args: Array[String]) {
         val res: Map[String, NetElement] = XmlNetManager.readNetElements("bank_net.xml")
-        println(res.mkString("\n"))
         XmlNetManager.connectNodes(res)
-
         val source = NetNode.findSource(res.values)
-
-        println(source)
-
         val generatedExpression = NetNode.traverse(
             start = source,
             wereThere = Set.empty,
@@ -94,10 +89,8 @@ object NetNode {
             destination = NetNode.findSink(res.values)
         )
         val normalized: Expression = generatedExpression.normalize().normalize()
-        println(normalized.toString(noParen = true))
         val components: List[List[Expression]] = Expression.components(normalized)
-        println(components.mkString("\n"))
 
-        println(Expression.componentsForAlgebra(components.head, Map.empty[String, Set[String]], 1))
+        println(Expression.componentsForAlgebra(components.head))
     }
 }
