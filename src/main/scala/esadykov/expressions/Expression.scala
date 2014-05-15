@@ -7,8 +7,6 @@ package esadykov.expressions
 abstract class Expression {
     def normalize(): Expression = this
 
-    def atomic: Boolean = false
-
     def toString(noParen: Boolean): String = toString
 }
 
@@ -51,12 +49,13 @@ object Expression {
                         case (Input(id1), Output(id2)) => componentsForAlgebra(xs, newAccDouble(id1, id2), counter + 1)
                         case (Output(id1), Input(id2)) => componentsForAlgebra(xs, newAccDouble(id1, id2), counter + 1)
                         case (Output(id1), Output(id2)) => componentsForAlgebra(xs, newAccDouble(id1, id2), counter + 1)
-                        case _ => throw new IllegalStateException
+                        case _ => throw new IllegalStateException("left: "+left+", right: "+right)
                     }
                 case Star(Input(id)) => componentsForAlgebra(xs, newAccStar(id), counter + 1)
                 case Star(Output(id)) => componentsForAlgebra(xs, newAccStar(id), counter + 1)
                 case Input(id) => componentsForAlgebra(xs, newAccSingle(id), counter)
                 case Output(id) => componentsForAlgebra(xs, newAccSingle(id), counter)
+                case _ => throw new IllegalStateException("element: "+x)
             }
             case Nil => acc
         }

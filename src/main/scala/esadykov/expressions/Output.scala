@@ -7,5 +7,4 @@ package esadykov.expressions
 case class Output(id: String) extends Expression {
     override def toString = "!"+id
 
-    override def atomic = true
 }
