@@ -95,6 +95,9 @@ object NetNode {
         )
         val normalized: Expression = generatedExpression.normalize().normalize()
         println(normalized.toString(noParen = true))
-        println(Expression.components(normalized).mkString("\n"))
+        val components: List[List[Expression]] = Expression.components(normalized)
+        println(components.mkString("\n"))
+
+        println(Expression.componentsForAlgebra(components.head, Map.empty[String, Set[String]], 1))
     }
 }

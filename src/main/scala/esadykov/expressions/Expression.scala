@@ -28,6 +28,40 @@ object Expression {
         }
     }
 
+    def componentsForAlgebra(components: List[Expression], acc: Map[String, Set[String]], counter: Int): Map[String, Set[String]] = {
+        def newAccDouble(id1: String, id2: String) = {
+            val set1: Set[String] = acc.getOrElse(id1, Set.empty[String]) + ("n" + counter)
+            val set2: Set[String] = acc.getOrElse(id2, Set.empty[String]) + ("n" + counter)
+            acc + (id1 -> set1) + (id2 -> set2)
+        }
+        def newAccSingle(id: String) = {
+            val set: Set[String] = acc.getOrElse(id, Set.empty[String]) + "1"
+            acc + (id -> set)
+        }
+        def newAccStar(id: String) = {
+            val set: Set[String] = acc.getOrElse(id, Set.empty[String]) + ("n" + counter)
+            acc + (id -> set)
+        }
+
+        components match {
+            case x :: xs => x match {
+                case Star(Circle(left, right)) =>
+                    (left, right) match {
+                        case (Input(id1), Input(id2)) => componentsForAlgebra(xs, newAccDouble(id1, id2), counter + 1)
+                        case (Input(id1), Output(id2)) => componentsForAlgebra(xs, newAccDouble(id1, id2), counter + 1)
+                        case (Output(id1), Input(id2)) => componentsForAlgebra(xs, newAccDouble(id1, id2), counter + 1)
+                        case (Output(id1), Output(id2)) => componentsForAlgebra(xs, newAccDouble(id1, id2), counter + 1)
+                        case _ => throw new IllegalStateException
+                    }
+                case Star(Input(id)) => componentsForAlgebra(xs, newAccStar(id), counter + 1)
+                case Star(Output(id)) => componentsForAlgebra(xs, newAccStar(id), counter + 1)
+                case Input(id) => componentsForAlgebra(xs, newAccSingle(id), counter)
+                case Output(id) => componentsForAlgebra(xs, newAccSingle(id), counter)
+            }
+            case Nil => acc
+        }
+    }
+
 
     def main(args: Array[String]) {
         val expression: Expression = Circle(Star(Circle(Output("CD"),
@@ -42,6 +76,9 @@ object Expression {
         val normalized: Expression = expression.normalize()
         println(normalized)
 
-        println(components(normalized).mkString("\n"))
+        val components1: List[List[Expression]] = components(normalized)
+        println(components1.mkString("\n"))
+        
+        println(componentsForAlgebra(components1.head, Map.empty[String, Set[String]], 1))
     }
 }
