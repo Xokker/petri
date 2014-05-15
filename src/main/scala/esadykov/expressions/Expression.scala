@@ -26,33 +26,27 @@ object Expression {
         }
     }
 
-    private def componentsForAlgebra(components: List[Expression], acc: Map[String, Set[String]], counter: Int): Map[String, Set[String]] = {
-        def newAccDouble(id1: String, id2: String) = {
-            val set1: Set[String] = acc.getOrElse(id1, Set.empty[String]) + ("n" + counter)
-            val set2: Set[String] = acc.getOrElse(id2, Set.empty[String]) + ("n" + counter)
-            acc + (id1 -> set1) + (id2 -> set2)
-        }
+    private def componentsForAlgebra(components: List[Expression], acc: Map[String, List[String]], counter: Int): Map[String, List[String]] = {
         def newAccSingle(id: String) = {
-            val set: Set[String] = acc.getOrElse(id, Set.empty[String]) + "1"
-            acc + (id -> set)
-        }
-        def newAccStar(id: String) = {
-            val set: Set[String] = acc.getOrElse(id, Set.empty[String]) + ("n" + counter)
+            val set: List[String] = acc.getOrElse(id, Nil) :+ "1"
             acc + (id -> set)
         }
 
         components match {
             case x :: xs => x match {
-                case Star(Circle(left, right)) =>
-                    (left, right) match {
-                        case (Input(id1), Input(id2)) => componentsForAlgebra(xs, newAccDouble(id1, id2), counter + 1)
-                        case (Input(id1), Output(id2)) => componentsForAlgebra(xs, newAccDouble(id1, id2), counter + 1)
-                        case (Output(id1), Input(id2)) => componentsForAlgebra(xs, newAccDouble(id1, id2), counter + 1)
-                        case (Output(id1), Output(id2)) => componentsForAlgebra(xs, newAccDouble(id1, id2), counter + 1)
-                        case _ => throw new IllegalStateException("left: "+left+", right: "+right)
+                case Star(ex) =>
+                    // TODO: make functional
+                    var newAc: Map[String, List[String]] = acc
+                    for (e <- Expression.components(ex).head if e.isInstanceOf[Input] || e.isInstanceOf[Output]) {
+                        val id: String =
+                            e match {
+                                case input: Input => input.id
+                                case output: Output => e.asInstanceOf[Output].id
+                            }
+                        val set: List[String] = newAc.getOrElse(id, Nil) :+ ("n" + counter)
+                        newAc = newAc + (id -> set)
                     }
-                case Star(Input(id)) => componentsForAlgebra(xs, newAccStar(id), counter + 1)
-                case Star(Output(id)) => componentsForAlgebra(xs, newAccStar(id), counter + 1)
+                    componentsForAlgebra(xs, newAc, counter + 1)
                 case Input(id) => componentsForAlgebra(xs, newAccSingle(id), counter)
                 case Output(id) => componentsForAlgebra(xs, newAccSingle(id), counter)
                 case _ => throw new IllegalStateException("element: "+x)
@@ -61,8 +55,8 @@ object Expression {
         }
     }
 
-    def componentsForAlgebra(components: List[Expression]): Map[String, Set[String]] =
-        componentsForAlgebra(components, Map.empty[String, Set[String]], 1)
+    def componentsForAlgebra(components: List[Expression]): Map[String, List[String]] =
+        componentsForAlgebra(components, Map.empty[String, List[String]], 1)
 
 
     def main(args: Array[String]) {

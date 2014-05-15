@@ -60,7 +60,7 @@ object NetNode {
             else {
                 val loopCandidates: Array[Expression] =
                     nonOutput
-                        .map(traverse(_, Set.empty, Empty(), inputs, start).normalize)
+                        .map(traverse(_, Set.empty, Empty(), inputs, start).normalize())
                 val newNewExpression = Circle(newExpression, loopCandidates.foldLeft[Expression](Empty()) {
                     (ex, el) => Circle(ex, Star(el))
                 })
