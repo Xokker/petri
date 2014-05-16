@@ -2,7 +2,6 @@ package esadykov.nets
 
 import scala.collection.Iterable
 import esadykov.expressions._
-import esadykov.XmlNetManager
 
 /**
  * @author Ernest Sadykov
@@ -40,6 +39,12 @@ object NetNode {
             .getOrElse(throw new IllegalArgumentException("No sink in elements"))
             .asInstanceOf[NetNode]
 
+    def inputs(netElements1: Map[String, NetElement]): Set[NetNode] =
+        netElements1.values
+            .filter(el => el.isInstanceOf[NetNode] && el.asInstanceOf[NetNode].input)
+            .map(_.asInstanceOf[NetNode])
+            .toSet
+
     def traverse(start: NetNode, wereThere: Set[NetNode], acc: Expression, inputs: Set[NetNode], destination: NetNode): Expression = {
         def findInputsAndOutputs(node: NetNode): Set[Expression] =
             node.connections
@@ -72,25 +77,5 @@ object NetNode {
                     }
             }
         }
-    }
-
-    def main(args: Array[String]) {
-        val res: Map[String, NetElement] = XmlNetManager.readNetElements("bank_net.xml")
-        XmlNetManager.connectNodes(res)
-        val source = NetNode.findSource(res.values)
-        val generatedExpression = NetNode.traverse(
-            start = source,
-            wereThere = Set.empty,
-            acc = Empty(),
-            inputs = res.values
-                .filter(el => el.isInstanceOf[NetNode] && el.asInstanceOf[NetNode].input)
-                .map(_.asInstanceOf[NetNode])
-                .toSet,
-            destination = NetNode.findSink(res.values)
-        )
-        val normalized: Expression = generatedExpression.normalize().normalize()
-        val components: List[List[Expression]] = Expression.components(normalized)
-
-        println(Expression.componentsForAlgebra(components.head))
     }
 }

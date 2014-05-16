@@ -9,8 +9,8 @@ import org.apache.commons.math3.linear._
 object ConsistencyChecker {
     def main(args: Array[String]) {
         val doubleCoeff: Array[Array[Double]] = Array(Array[Double](0, 1, -1),
-            Array[Double](0, 1, -1),
-            Array[Double](1, 0, -1))
+                                                    Array[Double](0, 1, -1),
+                                                    Array[Double](1, 0, -1))
         val doubleConsts: Array[Double] = Array[Double](-1, 0, 0)
         //        val doubleCoeff: Array[Array[Double]] = Array(Array[Double](1, 0, -1),
         //                                                      Array[Double](1, 0, -1),
