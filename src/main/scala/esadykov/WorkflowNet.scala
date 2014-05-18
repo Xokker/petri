@@ -14,6 +14,13 @@ import esadykov.expressions.Circle
  * @since 18.05.2014
  */
 class WorkflowNet(val source: NetNode, val sink: NetNode, val inputs: Set[NetNode]) {
+    lazy val outputs: Set[NetNode] = {
+        def traverse(start: NetNode, visited: Set[NetNode]): Set[NetNode] =
+            if (visited.contains(start)) Set.empty
+            else start.connections.filter(_.output).toSet ++ start.connections.flatMap(node => traverse(node, visited + start))
+        traverse(source, Set.empty)
+    }
+
     def traverse(start: NetNode, wereThere: Set[NetNode], acc: Expression, destination: NetNode): Expression = {
         def findInputsAndOutputs(node: NetNode): Set[Expression] =
             node.connections
