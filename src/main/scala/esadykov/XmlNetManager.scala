@@ -1,6 +1,7 @@
 package esadykov
 import scala.xml.XML._
 import esadykov.nets.{NetElement, NetNode, NetArc}
+import java.io.{FileNotFoundException, FileInputStream, InputStream}
 
 /**
  * @author Ernest Sadykov
@@ -8,7 +9,12 @@ import esadykov.nets.{NetElement, NetNode, NetArc}
  */
 object XmlNetManager {
     def readNetElements(filename: String): Map[String, NetElement] = {
-        val netSystem = ((load(getClass.getResourceAsStream(filename))
+        val stream: InputStream = try new FileInputStream(filename)
+                                  catch {
+                                      case _: FileNotFoundException =>
+                                          getClass.getResourceAsStream(filename)
+                                  }
+        val netSystem = ((load(stream)
             \ "net") (0) \ "netSystem") (0)
         val elements = (netSystem \ "nodes").map(node => new NetNode((node \ "@uuid").text, (node \ "@name").text)) ++
             (netSystem \ "arcs").map(arc => new NetArc((arc \ "@uuid").text, (arc \ "@source").text.drop(1), (arc \ "@target").text.drop(1)))

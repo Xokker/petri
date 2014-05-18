@@ -2,6 +2,7 @@ package esadykov
 
 import esadykov.nets.{NetNode, NetElement}
 import esadykov.expressions.{Expression, Empty}
+import esadykov.math.ConsistencyChecker
 
 /**
  * @author Ernest Sadykov
@@ -23,6 +24,9 @@ object Main {
 
         println("components 1: \n" + componentsForAlgebra1.mkString("\n"))
         println("components 2: \n" + componentsForAlgebra2.mkString("\n"))
+
+        println(ConsistencyChecker.check(componentsForAlgebra1, componentsForAlgebra2))
+
     }
 
     def componentsForAlgebra(filename: String, counter: Int = 1): List[Map[String, List[String]]] = {
