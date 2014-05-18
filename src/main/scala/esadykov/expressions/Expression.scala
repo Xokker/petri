@@ -63,41 +63,4 @@ object Expression {
         }
         componentsForAlgebra(components, Map.empty[String, List[String]], counter).map(el => (el._1, reduceList(el._2)))
     }
-
-
-    def main(args: Array[String]) {
-        val expression: Expression = Circle(Star(Circle(Output("CD"),
-                                                        Input("CR"))),
-                                            Oplus(Circle(Star(Input("A")),
-                                                         Output("E")),
-                                                  Circle(Output("CD"),
-                                                         Output("E"))))
-        val normalized: Expression = expression.normalize()
-        val components1: List[List[Expression]] = components(normalized)
-        println(components1.mkString("\n"))
-
-        println(componentsForAlgebra(components1.head))
-    }
-}
-
-object TestComponents {
-    def main(args: Array[String]) {
-        val first: Map[String, List[String]] = Map("CD" -> List("n1", "1"), "CR" -> List("n1", "1"), "A" -> List("n2", "1"), "E" -> List("1"))
-        val second: Map[String, List[String]] = Map("CD" -> List("n3", "1"), "CR" -> List("n3"), "A" -> List("n3"), "E" -> List("1"))
-
-        var equations: List[(List[String], Int)] = Nil
-
-        for {f <- first
-             s <- second
-             if f._1 == s._1} {
-            equations = equations :+ (f._2.filter(_.count(!_.isDigit) > 0) ::: s._2.filter(_.count(!_.isDigit) > 0).map("-"+_),
-                s._2.find(_ forall(_.isDigit)).getOrElse("0").toInt - f._2.find(_ forall(_.isDigit)).getOrElse("0").toInt)
-        }
-        equations = equations.filterNot(el => el._1 == Nil && el._2 == 0)
-
-        println(equations.foldLeft(Set.empty[String])((set: Set[String], lst: (List[String], Int)) => set ++ lst._1.map(_.stripPrefix("-"))).toList.sorted)
-
-        println(equations.mkString("\n"))
-
-    }
 }

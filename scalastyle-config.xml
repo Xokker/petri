@@ -99,4 +99,8 @@
  </check>
  <check level="warning" class="org.scalastyle.file.NewLineAtEofChecker" enabled="true"></check>
  <check level="warning" class="org.scalastyle.file.NoNewLineAtEofChecker" enabled="false"></check>
+
+ <check level="warning" class="org.scalastyle.scalariform.LowercasePatternMatchChecker" enabled="true"></check>
+ <check level="warning" class="org.scalastyle.scalariform.MultipleStringLiteralsChecker" enabled="true"></check>
+
 </scalastyle>
