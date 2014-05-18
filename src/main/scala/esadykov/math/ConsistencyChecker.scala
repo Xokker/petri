@@ -38,7 +38,22 @@ object ConsistencyChecker {
             uniques.map(s => if (coeff.contains(s) || coeff.contains("-"+s)) 1.0 else 0.0).toArray
         }
 
+        /**
+         * @return true if equations contain elements like (List(1), 0),
+         *         false otherwise
+         */
+        def containsWrongRows(equations: List[(List[String], Int)]): Boolean = {
+            for {e <- equations
+                 variableName <- e._1
+                 if variableName.find(!_.isDigit).isEmpty
+                 if e._2 != variableName.foldLeft(0)((acc, ch) => acc + ch.toInt)} {
+                return true
+            }
+            false
+        }
+
         val equations = equations0.filterNot(el => el._1.isEmpty && el._2 == 0)
+        if (containsWrongRows(equations)) return false
         val uniqueVars = equations.foldLeft(SortedSet.empty[String]) {
             (set: SortedSet[String], lst: (List[String], Int)) => set ++ lst._1.map(_.stripPrefix("-"))
         }.toList.sorted
@@ -54,7 +69,7 @@ object ConsistencyChecker {
         val doubleConsts: Array[Double] = equations.map(_._2.toDouble).toArray[Double]
 
         val (coeffRank, augmentedRank) = ranks(doubleCoeff, doubleConsts)
-        println(coeffRank + " " + augmentedRank)
+        println("coeffRank: " + coeffRank + ", augmentedRank: " + augmentedRank)
         if (coeffRank < augmentedRank) false
         else if (coeffRank > augmentedRank) true
         else if (solve(doubleCoeff, doubleConsts).count(_ < 0) > 0) false

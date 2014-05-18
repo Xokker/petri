@@ -1,7 +1,5 @@
 package esadykov
 
-import esadykov.nets.NetNode
-import esadykov.expressions.Expression
 import esadykov.math.ConsistencyChecker
 
 /**
@@ -17,13 +15,10 @@ object Main {
             sys.exit(-1)
         }
 
-        println(args(0) + " " + args(1))
+        val nets: List[WorkflowNet] = args.map(WorkflowNet.createFromFile).toList
 
-        val firstNet: WorkflowNet = WorkflowNet.createFromFile(args(0))
-        val secondNet: WorkflowNet = WorkflowNet.createFromFile(args(1))
-
-        val componentsForAlgebra1: List[Map[String, List[String]]] = firstNet.componentsForAlgebra()
-        val componentsForAlgebra2: List[Map[String, List[String]]] = secondNet.componentsForAlgebra(100)
+        val componentsForAlgebra1: List[Map[String, List[String]]] = nets(0).componentsForAlgebra()
+        val componentsForAlgebra2: List[Map[String, List[String]]] = nets(1).componentsForAlgebra(100)
 
         println("components 1: \n" + componentsForAlgebra1.mkString("\n"))
         println("components 2: \n" + componentsForAlgebra2.mkString("\n"))
