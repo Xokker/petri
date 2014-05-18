@@ -8,6 +8,7 @@ import esadykov.expressions.Empty
 import esadykov.expressions.Star
 import esadykov.expressions.Output
 import esadykov.expressions.Circle
+import esadykov.math.ConsistencyChecker.AlgebraComponents
 
 /**
  * @author Ernest Sadykov
@@ -55,7 +56,7 @@ class WorkflowNet(val source: NetNode, val sink: NetNode, val inputs: Set[NetNod
         }
     }
 
-    def componentsForAlgebra(counter: Int = 1): List[Map[String, List[String]]] = {
+    def componentsForAlgebra(counter: Int = 1): AlgebraComponents = {
         val generatedExpression = traverse(
             start = source,
             wereThere = Set.empty,

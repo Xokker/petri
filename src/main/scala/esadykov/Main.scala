@@ -1,6 +1,7 @@
 package esadykov
 
 import esadykov.math.ConsistencyChecker
+import esadykov.math.ConsistencyChecker.AlgebraComponents
 
 /**
  * @author Ernest Sadykov
@@ -17,8 +18,8 @@ object Main {
 
         val nets: List[WorkflowNet] = args.map(WorkflowNet.createFromFile).toList
 
-        val componentsForAlgebra1: List[Map[String, List[String]]] = nets(0).componentsForAlgebra()
-        val componentsForAlgebra2: List[Map[String, List[String]]] = nets(1).componentsForAlgebra(100)
+        val componentsForAlgebra1: AlgebraComponents = nets(0).componentsForAlgebra()
+        val componentsForAlgebra2: AlgebraComponents = nets(1).componentsForAlgebra(100)
 
         println("components 1: \n" + componentsForAlgebra1.mkString("\n"))
         println("components 2: \n" + componentsForAlgebra2.mkString("\n"))
@@ -27,3 +28,4 @@ object Main {
 
     }
 }
+

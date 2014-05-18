@@ -8,12 +8,15 @@ import scala.collection.immutable.SortedSet
  * @since 13.05.2014
  */
 object ConsistencyChecker {
+    type AlgebraComponents = List[Map[String, List[String]]]
+    type Equations = List[(List[String], Int)]
+
     // TODO: make functional
-    def check(components1: List[Map[String, List[String]]],
-              components2: List[Map[String, List[String]]]): Boolean = {
+    def check(components1: AlgebraComponents,
+              components2: AlgebraComponents): Boolean = {
         for {c1 <- components1
              c2 <- components2} {
-            var equations: List[(List[String], Int)] = Nil
+            var equations: Equations = Nil
             for {f <- c1
                  s <- c2
                  if f._1 == s._1} {
@@ -33,7 +36,7 @@ object ConsistencyChecker {
         false
     }
 
-    private def checkPair(equations0: List[(List[String], Int)]): Boolean = {
+    private def checkPair(equations0: Equations): Boolean = {
         def makeRow(uniques: IndexedSeq[String], coeff: List[String]): Array[Double] = {
             uniques.map(s => if (coeff.contains(s) || coeff.contains("-"+s)) 1.0 else 0.0).toArray
         }
@@ -42,7 +45,7 @@ object ConsistencyChecker {
          * @return true if equations contain elements like (List(1), 0),
          *         false otherwise
          */
-        def containsWrongRows(equations: List[(List[String], Int)]): Boolean = {
+        def containsWrongRows(equations: Equations): Boolean = {
             for {e <- equations
                  variableName <- e._1
                  if variableName.find(!_.isDigit).isEmpty
