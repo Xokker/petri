@@ -71,18 +71,18 @@ class WorkflowNet(val source: NetNode, val sink: NetNode, val inputs: Set[NetNod
 }
 
 object WorkflowNet {
-    def findSource(elements: Iterable[NetElement]): NetNode =
+
+    private def find(elements: Iterable[NetElement])(errorMessage: String, p: NetNode => Boolean) =
         elements
-            .find(el => el.isInstanceOf[NetNode] && el.asInstanceOf[NetNode].source)
-            .getOrElse(throw new IllegalArgumentException("No source in elements"))
+            .find(el => el.isInstanceOf[NetNode] && p(el.asInstanceOf[NetNode]))
+            .getOrElse(throw new IllegalArgumentException(errorMessage))
             .asInstanceOf[NetNode]
 
-    // TODO: eliminate code duplication
+    def findSource(elements: Iterable[NetElement]): NetNode =
+        find(elements)("No source in elements", _.source)
+
     def findSink(elements: Iterable[NetElement]): NetNode =
-        elements
-            .find(el => el.isInstanceOf[NetNode] && el.asInstanceOf[NetNode].sink)
-            .getOrElse(throw new IllegalArgumentException("No sink in elements"))
-            .asInstanceOf[NetNode]
+        find(elements)("No sink in elements", _.sink)
 
     private def inputs(netElements1: Map[String, NetElement]): Set[NetNode] =
         netElements1.values
