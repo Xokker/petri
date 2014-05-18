@@ -23,7 +23,7 @@ object XmlNetManager {
                 (elems: Map[String, NetElement], elem: (String, NetElement)) => elems + elem)
     }
 
-    def connectNodes[T <: NetElement](elements: Map[String, T]) =
+    def connectNodes[T <: NetElement](elements: Map[String, T]): Unit =
         for ((key, value) <- elements if value.isInstanceOf[NetArc]) {
             val arc = value.asInstanceOf[NetArc]
             elements(arc.fromId)

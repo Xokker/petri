@@ -29,7 +29,7 @@ object Expression {
     private def componentsForAlgebra(components: List[Expression],
                                      acc: Map[String, List[String]],
                                      counter: Int): Map[String, List[String]] = {
-        def newAccSingle(id: String) = {
+        def newAccSingle(id: String): Map[String, List[String]] = {
             val set: List[String] = acc.getOrElse(id, Nil) :+ "1"
             acc + (id -> set)
         }

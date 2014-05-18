@@ -28,8 +28,7 @@ object ConsistencyChecker {
                  if !c1.contains(s._1)} {
                 equations = equations :+ (s._2, 0)
             }
-            if (checkPair(equations))
-                return true
+            if (checkPair(equations)) return true
         }
         false
     }

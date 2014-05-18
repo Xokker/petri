@@ -14,13 +14,13 @@ object Main {
     def main(args: Array[String]) {
         if (args.length < 2) {
             println(usageString)
-            return
+            sys.exit(-1)
         }
 
         println(args(0) + " " + args(1))
 
         val componentsForAlgebra1: List[Map[String, List[String]]] = componentsForAlgebra(args(0))
-        val componentsForAlgebra2: List[Map[String, List[String]]] = componentsForAlgebra(args(1), 10)
+        val componentsForAlgebra2: List[Map[String, List[String]]] = componentsForAlgebra(args(1), 100)
 
         println("components 1: \n" + componentsForAlgebra1.mkString("\n"))
         println("components 2: \n" + componentsForAlgebra2.mkString("\n"))

@@ -6,9 +6,9 @@ package esadykov.expressions
  */
 class Component(val id: String, val stars: Int = 0, val withoutStar: Int = 0) {
 
-    def incrementStars = new Component(id, stars + 1, withoutStar)
+    def incrementStars: Component = new Component(id, stars + 1, withoutStar)
 
-    def incrementWithoutStars = new Component(id, stars, withoutStar + 1)
+    def incrementWithoutStars: Component = new Component(id, stars, withoutStar + 1)
 
     override def equals(that: Any) =
         if (that == null || !that.isInstanceOf[Component]) false

@@ -14,7 +14,7 @@ class NetNode(uuid: String, _name: String) extends NetElement(uuid) {
     val sink: Boolean = _name == "sink"
     var connections: Array[NetNode] = Array.empty[NetNode]
 
-    def connectWith(anotherNode: NetNode) =
+    def connectWith(anotherNode: NetNode): Unit =
         connections = connections :+ anotherNode
 
     def name: String =
@@ -60,9 +60,9 @@ object NetNode {
             val nonOutput = start.connections.filter(!_.output)
             val newExpression: Expression = IO.foldLeft(acc)((ex, el) => Circle(ex, el))
 
-            if (nonOutput.length == 1)
+            if (nonOutput.length == 1) {
                 traverse(nonOutput.head, wereThere + start, newExpression, inputs, destination)
-            else {
+            } else {
                 val loopCandidates: Array[Expression] =
                     nonOutput
                         .map(traverse(_, Set.empty, Empty(), inputs, start).normalize())
