@@ -68,7 +68,7 @@ object ConsistencyChecker {
      * @return pair: _1 - rank of the coefficient matrix,
      *               _2 - rank of the augmented matrix
      */
-    def ranks(doubleCoeff: Array[Array[Double]], doubleConsts: Array[Double]): (Int, Int) = {
+    private def ranks(doubleCoeff: Array[Array[Double]], doubleConsts: Array[Double]): (Int, Int) = {
 
         var doubleAugmented: Array[Array[Double]] = Array.empty
         var counter = 0
@@ -83,7 +83,7 @@ object ConsistencyChecker {
         (new SingularValueDecomposition(coeff).getRank, new SingularValueDecomposition(augmented).getRank)
     }
 
-    def solve(doubleCoeff: Array[Array[Double]], doubleConsts: Array[Double]): Array[Double] = {
+    private def solve(doubleCoeff: Array[Array[Double]], doubleConsts: Array[Double]): Array[Double] = {
 
         val coeff: RealMatrix  = new Array2DRowRealMatrix(doubleCoeff, false)
         val solver: DecompositionSolver = new QRDecomposition(coeff).getSolver
