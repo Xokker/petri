@@ -68,6 +68,7 @@ object ConsistencyChecker {
             doubleCoeff(counter) = makeRow(uniqueVars.toIndexedSeq, equation._1)
             counter = counter + 1
         }
+        if (equations.isEmpty) return true
 
         val doubleConsts: Array[Double] = equations.map(_._2.toDouble).toArray[Double]
 
