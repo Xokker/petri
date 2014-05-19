@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npnets:NPnetMarked xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:hlpn="mathtech.ru/npntool/hlpn" xmlns:npndiagrams="http:/mathtech.ru/npntool/npndiagrams" xmlns:npnets="mathtech.ru/npntool/npnets" uuid="npn110faea4-22e2-4c39-98f7-1a9d349ae617">
+  <net uuid="npn0d5016ca-05e8-443d-ac72-2bd199a8db12" name="Untitled NPN">
+    <netSystem uuid="npn39fe7704-4e2b-464d-b5bd-b0a9910352a4" name="Untitled SN">
+      <nodes xsi:type="hlpn:Place" uuid="npnaf89a451-3b5a-4955-b24f-437ad3f280ea" name="source" outArcs="#npned0c2c46-2786-41bd-a5aa-43074848b559"/>
+      <nodes xsi:type="hlpn:Place" uuid="npn9bd2134a-89a5-4450-bb94-aead99599730" name="sink" inArcs="#npn60a2c884-4f76-4913-9bf4-58266f8b68ce"/>
+      <nodes xsi:type="hlpn:Place" uuid="npn6745297e-2176-4e23-bb60-09327ea587c3" name="O:Unused" inArcs="#npn1349645a-b607-4c7c-9a6c-b82b7a2eeae6"/>
+      <nodes xsi:type="hlpn:Transition" uuid="npn0636bf46-e117-4dc0-a241-f16a95dbc95b" name="t1" inArcs="#npned0c2c46-2786-41bd-a5aa-43074848b559" outArcs="#npn60a2c884-4f76-4913-9bf4-58266f8b68ce #npn1349645a-b607-4c7c-9a6c-b82b7a2eeae6"/>
+      <arcs xsi:type="hlpn:ArcPT" uuid="npned0c2c46-2786-41bd-a5aa-43074848b559" source="#npnaf89a451-3b5a-4955-b24f-437ad3f280ea" target="#npn0636bf46-e117-4dc0-a241-f16a95dbc95b"/>
+      <arcs xsi:type="hlpn:ArcTP" uuid="npn60a2c884-4f76-4913-9bf4-58266f8b68ce" source="#npn0636bf46-e117-4dc0-a241-f16a95dbc95b" target="#npn9bd2134a-89a5-4450-bb94-aead99599730"/>
+      <arcs xsi:type="hlpn:ArcTP" uuid="npn1349645a-b607-4c7c-9a6c-b82b7a2eeae6" source="#npn0636bf46-e117-4dc0-a241-f16a95dbc95b" target="#npn6745297e-2176-4e23-bb60-09327ea587c3"/>
+    </netSystem>
+  </net>
+  <diagramNetSystem uuid="npnfdb9e79d-5009-4413-8c61-efd3fadfbc63" model="#npn39fe7704-4e2b-464d-b5bd-b0a9910352a4">
+    <nodes xsi:type="npndiagrams:NPNSymbolPlaceSN" uuid="npn33004c28-e628-431d-bcf4-c201f2724b69" constraints="192,131,56,33" model="#npnaf89a451-3b5a-4955-b24f-437ad3f280ea" outArcs="#npnfe2731d3-7163-4be2-81b7-4b498437f49d"/>
+    <nodes xsi:type="npndiagrams:NPNSymbolPlaceSN" uuid="npn114ce773-f990-4c49-baab-6a0f429af7f9" constraints="356,133,43,33" model="#npn9bd2134a-89a5-4450-bb94-aead99599730" inArcs="#npn5643f791-e0f7-4439-9b76-ab2a7e20ed8f"/>
+    <nodes xsi:type="npndiagrams:NPNSymbolPlaceSN" uuid="npn90e03845-9bab-47bc-96a1-3bf90c4b94e2" constraints="275,60,72,33" model="#npn6745297e-2176-4e23-bb60-09327ea587c3" inArcs="#npnae9700cf-8b00-42a7-8898-6b0838a490c1"/>
+    <nodes xsi:type="npndiagrams:NPNSymbolTransitionSN" uuid="npn27c8791d-bc87-4be0-959f-02400d37cee2" constraints="289,132,32,33" model="#npn0636bf46-e117-4dc0-a241-f16a95dbc95b" outArcs="#npn5643f791-e0f7-4439-9b76-ab2a7e20ed8f #npnae9700cf-8b00-42a7-8898-6b0838a490c1" inArcs="#npnfe2731d3-7163-4be2-81b7-4b498437f49d"/>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcPTSN" uuid="npnfe2731d3-7163-4be2-81b7-4b498437f49d" model="#npned0c2c46-2786-41bd-a5aa-43074848b559" target="#npn27c8791d-bc87-4be0-959f-02400d37cee2" source="#npn33004c28-e628-431d-bcf4-c201f2724b69"/>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcTPSN" uuid="npn5643f791-e0f7-4439-9b76-ab2a7e20ed8f" model="#npn60a2c884-4f76-4913-9bf4-58266f8b68ce" target="#npn114ce773-f990-4c49-baab-6a0f429af7f9" source="#npn27c8791d-bc87-4be0-959f-02400d37cee2"/>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcTPSN" uuid="npnae9700cf-8b00-42a7-8898-6b0838a490c1" model="#npn1349645a-b607-4c7c-9a6c-b82b7a2eeae6" target="#npn90e03845-9bab-47bc-96a1-3bf90c4b94e2" source="#npn27c8791d-bc87-4be0-959f-02400d37cee2"/>
+  </diagramNetSystem>
+</npnets:NPnetMarked>

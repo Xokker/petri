@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npnets:NPnetMarked xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:hlpn="mathtech.ru/npntool/hlpn" xmlns:npndiagrams="http:/mathtech.ru/npntool/npndiagrams" xmlns:npnets="mathtech.ru/npntool/npnets" uuid="npn01575a10-4f80-4077-96ab-5d4f410bfff2">
+  <net uuid="npn9c6474a5-51d6-46ba-82fc-e64bda9240cc" name="Untitled NPN">
+    <netSystem uuid="npncd35c4c0-ad10-453c-ba06-25b097f785b4" name="Untitled SN">
+      <nodes xsi:type="hlpn:Place" uuid="npn0f9171cb-83e6-466e-8c6d-0e66edeb68c7" name="source" outArcs="#npn9e8745f0-623f-40d0-81d8-c7acda4f011b"/>
+      <nodes xsi:type="hlpn:Transition" uuid="npna6636683-d812-4ce0-9298-73237ab83967" name="t1" inArcs="#npn9e8745f0-623f-40d0-81d8-c7acda4f011b #npn6224d472-ce52-4850-b437-10e9130be42d" outArcs="#npn07146694-5f3c-46c0-827f-5b5c60b12aed"/>
+      <nodes xsi:type="hlpn:Place" uuid="npn10fa2079-eed5-419b-b4e3-c2d9c160116d" name="I:Used" outArcs="#npn6224d472-ce52-4850-b437-10e9130be42d"/>
+      <nodes xsi:type="hlpn:Place" uuid="npnf51dd884-6e85-4b50-9e76-5794333ecd54" name="p2" outArcs="#npn9aa12104-4f01-46bb-a2f4-11d908c9c70b" inArcs="#npn07146694-5f3c-46c0-827f-5b5c60b12aed"/>
+      <nodes xsi:type="hlpn:Transition" uuid="npnd3a68242-a93d-4111-b9d0-075b36f0129a" name="t2" inArcs="#npn9aa12104-4f01-46bb-a2f4-11d908c9c70b" outArcs="#npnf058828e-44e5-4498-b7d2-2e1662090ac6 #npnba3af464-5390-4e1c-a06f-fd0beea3ce75"/>
+      <nodes xsi:type="hlpn:Place" uuid="npnbb323a7e-a1c3-4288-ba1c-06b3f99b3326" name="O:A" inArcs="#npnba3af464-5390-4e1c-a06f-fd0beea3ce75"/>
+      <nodes xsi:type="hlpn:Place" uuid="npn3b9559bd-9607-41bc-a41c-5da68a93d06f" name="sink" inArcs="#npnf058828e-44e5-4498-b7d2-2e1662090ac6"/>
+      <arcs xsi:type="hlpn:ArcPT" uuid="npn9e8745f0-623f-40d0-81d8-c7acda4f011b" source="#npn0f9171cb-83e6-466e-8c6d-0e66edeb68c7" target="#npna6636683-d812-4ce0-9298-73237ab83967"/>
+      <arcs xsi:type="hlpn:ArcTP" uuid="npn07146694-5f3c-46c0-827f-5b5c60b12aed" source="#npna6636683-d812-4ce0-9298-73237ab83967" target="#npnf51dd884-6e85-4b50-9e76-5794333ecd54"/>
+      <arcs xsi:type="hlpn:ArcPT" uuid="npn9aa12104-4f01-46bb-a2f4-11d908c9c70b" source="#npnf51dd884-6e85-4b50-9e76-5794333ecd54" target="#npnd3a68242-a93d-4111-b9d0-075b36f0129a"/>
+      <arcs xsi:type="hlpn:ArcTP" uuid="npnf058828e-44e5-4498-b7d2-2e1662090ac6" source="#npnd3a68242-a93d-4111-b9d0-075b36f0129a" target="#npn3b9559bd-9607-41bc-a41c-5da68a93d06f"/>
+      <arcs xsi:type="hlpn:ArcTP" uuid="npnba3af464-5390-4e1c-a06f-fd0beea3ce75" source="#npnd3a68242-a93d-4111-b9d0-075b36f0129a" target="#npnbb323a7e-a1c3-4288-ba1c-06b3f99b3326"/>
+      <arcs xsi:type="hlpn:ArcPT" uuid="npn6224d472-ce52-4850-b437-10e9130be42d" source="#npn10fa2079-eed5-419b-b4e3-c2d9c160116d" target="#npna6636683-d812-4ce0-9298-73237ab83967"/>
+    </netSystem>
+  </net>
+  <diagramNetSystem uuid="npn32598865-6041-4868-96c6-503abb17b541" model="#npncd35c4c0-ad10-453c-ba06-25b097f785b4">
+    <nodes xsi:type="npndiagrams:NPNSymbolPlaceSN" uuid="npn16d3d62f-f797-4d74-86aa-d1055d044164" constraints="75,135,56,33" model="#npn0f9171cb-83e6-466e-8c6d-0e66edeb68c7" outArcs="#npn7bd10d6c-858e-4207-8765-2bf460c18446"/>
+    <nodes xsi:type="npndiagrams:NPNSymbolTransitionSN" uuid="npn9a3e51c2-873f-4de8-b617-f5b2aeed16ce" constraints="184,132,32,33" model="#npna6636683-d812-4ce0-9298-73237ab83967" outArcs="#npndb0bb88d-8e67-4ed0-ba0a-09574de5dc30" inArcs="#npn7bd10d6c-858e-4207-8765-2bf460c18446 #npn0b786007-1a43-4e8e-846a-70fa2d5fbda3"/>
+    <nodes xsi:type="npndiagrams:NPNSymbolPlaceSN" uuid="npnb066ea74-3bed-4d70-a49c-fac1309cdc09" constraints="166,68,53,33" model="#npn10fa2079-eed5-419b-b4e3-c2d9c160116d" outArcs="#npn0b786007-1a43-4e8e-846a-70fa2d5fbda3"/>
+    <nodes xsi:type="npndiagrams:NPNSymbolPlaceSN" uuid="npn55beb11c-2530-4059-a47c-e00828874b08" constraints="262,136,34,33" model="#npnf51dd884-6e85-4b50-9e76-5794333ecd54" outArcs="#npn762833d4-dfbd-4a6f-9e46-876b9ffc0d5e" inArcs="#npndb0bb88d-8e67-4ed0-ba0a-09574de5dc30"/>
+    <nodes xsi:type="npndiagrams:NPNSymbolTransitionSN" uuid="npn23b10fe7-50ce-420a-9d94-bbbe5dac59eb" constraints="354,144,32,33" model="#npnd3a68242-a93d-4111-b9d0-075b36f0129a" outArcs="#npn9e506d6c-db5a-4a5a-a068-380eaa802262 #npnedc7a94a-bd6d-440b-a7de-5e55c1008e3b" inArcs="#npn762833d4-dfbd-4a6f-9e46-876b9ffc0d5e"/>
+    <nodes xsi:type="npndiagrams:NPNSymbolPlaceSN" uuid="npn380b74bd-c3d0-4d3b-9f24-a6c973e9a2cf" constraints="346,64,40,33" model="#npnbb323a7e-a1c3-4288-ba1c-06b3f99b3326" inArcs="#npnedc7a94a-bd6d-440b-a7de-5e55c1008e3b"/>
+    <nodes xsi:type="npndiagrams:NPNSymbolPlaceSN" uuid="npnbcf5b185-e58d-4594-ae60-a6b214887941" constraints="437,143,43,33" model="#npn3b9559bd-9607-41bc-a41c-5da68a93d06f" inArcs="#npn9e506d6c-db5a-4a5a-a068-380eaa802262"/>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcPTSN" uuid="npn7bd10d6c-858e-4207-8765-2bf460c18446" model="#npn9e8745f0-623f-40d0-81d8-c7acda4f011b" target="#npn9a3e51c2-873f-4de8-b617-f5b2aeed16ce" source="#npn16d3d62f-f797-4d74-86aa-d1055d044164"/>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcTPSN" uuid="npndb0bb88d-8e67-4ed0-ba0a-09574de5dc30" model="#npn07146694-5f3c-46c0-827f-5b5c60b12aed" target="#npn55beb11c-2530-4059-a47c-e00828874b08" source="#npn9a3e51c2-873f-4de8-b617-f5b2aeed16ce"/>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcPTSN" uuid="npn762833d4-dfbd-4a6f-9e46-876b9ffc0d5e" model="#npn9aa12104-4f01-46bb-a2f4-11d908c9c70b" target="#npn23b10fe7-50ce-420a-9d94-bbbe5dac59eb" source="#npn55beb11c-2530-4059-a47c-e00828874b08"/>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcTPSN" uuid="npn9e506d6c-db5a-4a5a-a068-380eaa802262" model="#npnf058828e-44e5-4498-b7d2-2e1662090ac6" target="#npnbcf5b185-e58d-4594-ae60-a6b214887941" source="#npn23b10fe7-50ce-420a-9d94-bbbe5dac59eb"/>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcTPSN" uuid="npnedc7a94a-bd6d-440b-a7de-5e55c1008e3b" model="#npnba3af464-5390-4e1c-a06f-fd0beea3ce75" target="#npn380b74bd-c3d0-4d3b-9f24-a6c973e9a2cf" source="#npn23b10fe7-50ce-420a-9d94-bbbe5dac59eb"/>
+    <arcs xsi:type="npndiagrams:NPNSymbolArcPTSN" uuid="npn0b786007-1a43-4e8e-846a-70fa2d5fbda3" model="#npn6224d472-ce52-4850-b437-10e9130be42d" target="#npn9a3e51c2-873f-4de8-b617-f5b2aeed16ce" source="#npnb066ea74-3bed-4d70-a49c-fac1309cdc09"/>
+  </diagramNetSystem>
+</npnets:NPnetMarked>

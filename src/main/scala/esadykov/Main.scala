@@ -2,6 +2,8 @@ package esadykov
 
 import esadykov.math.ConsistencyChecker
 import esadykov.math.ConsistencyChecker.AlgebraComponents
+import esadykov.validators.UnusedOutputsFinder
+import esadykov.nets.NetNode
 
 /**
  * @author Ernest Sadykov
@@ -17,6 +19,9 @@ object Main {
         }
 
         val nets: List[WorkflowNet] = args.map(WorkflowNet.createFromFile).toList
+
+        val unusedOutputs: Set[NetNode] = UnusedOutputsFinder.find(nets.toSet)
+        if (!unusedOutputs.isEmpty) println("There is unusedOutputs: " + unusedOutputs)
 
         val componentsForAlgebra1: AlgebraComponents = nets(0).componentsForAlgebra()
         val componentsForAlgebra2: AlgebraComponents = nets(1).componentsForAlgebra(100)

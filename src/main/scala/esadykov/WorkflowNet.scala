@@ -68,6 +68,22 @@ class WorkflowNet(val source: NetNode, val sink: NetNode, val inputs: Set[NetNod
 
         components.map(Expression.componentsForAlgebra(_, counter))
     }
+
+
+    def canEqual(other: Any): Boolean = other.isInstanceOf[WorkflowNet]
+
+    override def equals(other: Any): Boolean = other match {
+        case that: WorkflowNet =>
+            (that canEqual this) &&
+                source == that.source &&
+                sink == that.sink
+        case _ => false
+    }
+
+    override def hashCode(): Int = {
+        val state = Seq(source, sink)
+        state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
+    }
 }
 
 object WorkflowNet {
