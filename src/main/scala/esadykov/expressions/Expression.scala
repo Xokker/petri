@@ -54,7 +54,7 @@ object Expression {
                     componentsForAlgebra(xs, newAc, prefix, counter + 1)
                 case Input(id) => componentsForAlgebra(xs, newAccSingle(id), prefix, counter)
                 case Output(id) => componentsForAlgebra(xs, newAccSingle(id), prefix, counter)
-                case _ => throw new IllegalStateException("element: "+x)
+                case _ => throw new IllegalStateException("element: "+x+" components: "+components)
             }
             case Nil => acc
         }
@@ -64,7 +64,7 @@ object Expression {
         def reduceList(s: List[String]): List[String] = {
             (s.filter(_ != "1") :+ s.count(_ == "1").toString).filter(_ != "0")
         }
-        val prefix1 = if (prefix.isEmpty) RandomStringUtils.randomAlphabetic(3) else prefix
-        componentsForAlgebra(components, Map.empty[String, List[String]], prefix1, 0).map(el => (el._1, reduceList(el._2)))
+        val prefix1 = if (prefix.isEmpty) RandomStringUtils.randomAlphabetic(3).toLowerCase else prefix
+        componentsForAlgebra(components, Map.empty[String, List[String]], prefix1, 1).map(el => (el._1, reduceList(el._2)))
     }
 }

@@ -22,7 +22,7 @@ class NetNode(uuid: String, _name: String) extends NetElement(uuid) {
         connections = connections :+ anotherNode
 
     def name: String =
-        _name.stripPrefix(InputPrefix).stripPrefix(OutputPrefix)
+        _name.stripPrefix(InputPrefix).stripPrefix(OutputPrefix).stripPrefix(SocketPrefix)
 
     override def toString =
         getClass.getSimpleName+"[uuid="+uuid+",name="+name+"," +

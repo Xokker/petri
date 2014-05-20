@@ -40,7 +40,7 @@ object Main {
             "Available sockets: " + net.sockets.map(_.name).mkString(" ")
 
         @tailrec
-        def loop(message: String = "") {
+        def mainLoop(message: String = "") {
             println(if (message.isEmpty) Prompt else message + Prompt)
             var counter = 1
             for (n <- nets) {
@@ -52,7 +52,7 @@ object Main {
             read match {
                 case Pattern(g) =>
                     val args: Array[String] = g.split(" ").filter(_ != "")
-                    if (args.length != 2) loop("Wrong number of arguments\n")
+                    if (args.length != 2) mainLoop("Wrong number of arguments\n")
                     else {
                         val connection: ((Int, String), (Int, String)) = {
                             val mapRes: Array[Array[String]] = args.map(_.split("\\."))
@@ -60,17 +60,14 @@ object Main {
                         }
                         println(connection + " is " + tryConnect(nets(connection._1._1 - 1), nets(connection._2._1 - 1),
                             Set(connection._1._2), Set(connection._2._2)))
-                        loop()
+                        mainLoop()
                     }
                 case "exit" => ()
-                case _ => loop()
+                case _ => mainLoop()
             }
         }
 
-        val components: List[AlgebraComponents] = nets.map(_.componentsForAlgebra)
-//        println("components: \n" + components.mkString("\n"))
-
-        loop()
+        mainLoop()
     }
 
     def tryConnect(net1: WorkflowNet, net2: WorkflowNet,

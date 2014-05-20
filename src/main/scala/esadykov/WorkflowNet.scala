@@ -15,21 +15,15 @@ import esadykov.math.ConsistencyChecker.AlgebraComponents
  * @since 18.05.2014
  */
 class WorkflowNet(val source: NetNode, val sink: NetNode, val sockets: Set[NetNode]) {
-    lazy val outputs: Set[NetNode] = {
-        def traverse(start: NetNode, visited: Set[NetNode]): Set[NetNode] =
-            if (visited.contains(start)) Set.empty
-            else start.connections.filter(_.output).toSet ++ start.connections.flatMap(node => traverse(node, visited + start))
-        traverse(source, Set.empty)
-    }
 
-    lazy val expression: Expression = {
+    def expression: Expression = {
         val expr: Expression = traverse(
             start = source,
             wereThere = Set.empty,
             acc = Empty(),
             destination = sink
         )
-        expr.normalize().normalize()
+        expr.normalize().normalize().normalize().normalize().normalize()
     }
 
     lazy val componentsForAlgebra: AlgebraComponents = {
@@ -38,14 +32,15 @@ class WorkflowNet(val source: NetNode, val sink: NetNode, val sockets: Set[NetNo
         components.map(Expression.componentsForAlgebra(_))
     }
 
-    def traverse(start: NetNode, wereThere: Set[NetNode], acc: Expression, destination: NetNode): Expression = {
-        def findSockets(node: NetNode): Set[Expression] =
-            node.connections
-                .filter(_.socket)
-                .foldLeft(Set.empty[Expression])((s, n) => s + new Output(n.name)) ++
-                sockets.filter(_.connections.contains(node))
-                    .foldLeft(Set.empty[Expression])((s, n) => s + new Input(n.name))
+    protected def findSockets(node: NetNode): Set[Expression] =
+        (node.connections
+            .filter(_.socket)
+            .foldLeft(Set.empty[Expression])((s, n) => s + new Output(n.name))
+            ++
+            sockets.filter(_.connections.contains(node))
+                .foldLeft(Set.empty[Expression])((s, n) => s + new Input(n.name)))
 
+    private def traverse(start: NetNode, wereThere: Set[NetNode], acc: Expression, destination: NetNode): Expression = {
         if (start == destination) acc
         else if (wereThere.contains(start)) Empty() // loop
         else {
@@ -72,18 +67,22 @@ class WorkflowNet(val source: NetNode, val sink: NetNode, val sockets: Set[NetNo
         }
     }
 
+    def netWithoutSockets(socketsOut: Set[String]): WorkflowNet =
+        new FilteredWorkflowNet(source, sink, sockets.filterNot(n => socketsOut.contains(n.name)), socketsOut)
+
     def canEqual(other: Any): Boolean = other.isInstanceOf[WorkflowNet]
 
     override def equals(other: Any): Boolean = other match {
         case that: WorkflowNet =>
             (that canEqual this) &&
                 source == that.source &&
-                sink == that.sink
+                sink == that.sink &&
+                sockets.size == that.sockets.size
         case _ => false
     }
 
     override def hashCode(): Int = {
-        val state = Seq(source, sink)
+        val state = Seq(source, sink, sockets.size)
         state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
     }
 }
