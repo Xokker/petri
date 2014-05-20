@@ -14,7 +14,7 @@ import esadykov.math.ConsistencyChecker.AlgebraComponents
  * @author Ernest Sadykov
  * @since 18.05.2014
  */
-class WorkflowNet(val source: NetNode, val sink: NetNode, val inputs: Set[NetNode]) {
+class WorkflowNet(val source: NetNode, val sink: NetNode, val sockets: Set[NetNode]) {
     lazy val outputs: Set[NetNode] = {
         def traverse(start: NetNode, visited: Set[NetNode]): Set[NetNode] =
             if (visited.contains(start)) Set.empty
@@ -22,18 +22,34 @@ class WorkflowNet(val source: NetNode, val sink: NetNode, val inputs: Set[NetNod
         traverse(source, Set.empty)
     }
 
+    lazy val expression: Expression = {
+        val expr: Expression = traverse(
+            start = source,
+            wereThere = Set.empty,
+            acc = Empty(),
+            destination = sink
+        )
+        expr.normalize().normalize()
+    }
+
+    lazy val componentsForAlgebra: AlgebraComponents = {
+        val components: List[List[Expression]] = Expression.components(expression)
+
+        components.map(Expression.componentsForAlgebra(_))
+    }
+
     def traverse(start: NetNode, wereThere: Set[NetNode], acc: Expression, destination: NetNode): Expression = {
-        def findInputsAndOutputs(node: NetNode): Set[Expression] =
+        def findSockets(node: NetNode): Set[Expression] =
             node.connections
-                .filter(_.output)
+                .filter(_.socket)
                 .foldLeft(Set.empty[Expression])((s, n) => s + new Output(n.name)) ++
-                inputs.filter(_.connections.contains(node))
+                sockets.filter(_.connections.contains(node))
                     .foldLeft(Set.empty[Expression])((s, n) => s + new Input(n.name))
 
         if (start == destination) acc
         else if (wereThere.contains(start)) Empty() // loop
         else {
-            val IO: Set[Expression] = findInputsAndOutputs(start)
+            val IO: Set[Expression] = findSockets(start)
             val nonOutput = start.connections.filter(!_.output)
             val newExpression: Expression = IO.foldLeft(acc)((ex, el) => Circle(ex, el))
 
@@ -55,20 +71,6 @@ class WorkflowNet(val source: NetNode, val sink: NetNode, val inputs: Set[NetNod
             }
         }
     }
-
-    def componentsForAlgebra(counter: Int = 1): AlgebraComponents = {
-        val generatedExpression = traverse(
-            start = source,
-            wereThere = Set.empty,
-            acc = Empty(),
-            destination = sink
-        )
-        val normalized: Expression = generatedExpression.normalize().normalize()
-        val components: List[List[Expression]] = Expression.components(normalized)
-
-        components.map(Expression.componentsForAlgebra(_, counter))
-    }
-
 
     def canEqual(other: Any): Boolean = other.isInstanceOf[WorkflowNet]
 
@@ -100,15 +102,15 @@ object WorkflowNet {
     def findSink(elements: Iterable[NetElement]): NetNode =
         find(elements)("No sink in elements", _.sink)
 
-    private def inputs(netElements1: Map[String, NetElement]): Set[NetNode] =
+    private def sockets(netElements1: Map[String, NetElement]): Set[NetNode] =
         netElements1.values
-            .filter(el => el.isInstanceOf[NetNode] && el.asInstanceOf[NetNode].input)
+            .filter(el => el.isInstanceOf[NetNode] && el.asInstanceOf[NetNode].socket)
             .map(_.asInstanceOf[NetNode])
             .toSet
 
     def createFromFile(filename: String): WorkflowNet = {
         val elements: Map[String, NetElement] = XmlNetManager.readNetElements(filename)
         XmlNetManager.connectNodes(elements)
-        new WorkflowNet(findSource(elements.values), findSink(elements.values), inputs(elements))
+        new WorkflowNet(findSource(elements.values), findSink(elements.values), sockets(elements))
     }
 }

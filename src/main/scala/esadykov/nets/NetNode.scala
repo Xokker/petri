@@ -8,11 +8,14 @@ package esadykov.nets
 class NetNode(uuid: String, _name: String) extends NetElement(uuid) {
     private[this] val InputPrefix = "I:"
     private[this] val OutputPrefix = "O:"
+    private[this] val SocketPrefix = "S:"
 
     val input: Boolean = _name.startsWith(InputPrefix)
     val output: Boolean = _name.startsWith(OutputPrefix)
+    private[this] val _socket: Boolean = _name.startsWith(SocketPrefix)
     val source: Boolean = _name == "source"
     val sink: Boolean = _name == "sink"
+    val socket: Boolean = input || output || _socket
     var connections: Array[NetNode] = Array.empty[NetNode]
 
     def connectWith(anotherNode: NetNode): Unit =

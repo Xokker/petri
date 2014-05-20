@@ -1,5 +1,7 @@
 package esadykov.expressions
 
+import org.apache.commons.lang3.RandomStringUtils
+
 /**
  * @author Ernest Sadykov
  * @since 03.05.2014
@@ -28,6 +30,7 @@ object Expression {
 
     private def componentsForAlgebra(components: List[Expression],
                                      acc: Map[String, List[String]],
+                                     prefix: String,
                                      counter: Int): Map[String, List[String]] = {
         def newAccSingle(id: String): Map[String, List[String]] = {
             val set: List[String] = acc.getOrElse(id, Nil) :+ "1"
@@ -45,22 +48,23 @@ object Expression {
                                 case input: Input => input.id
                                 case output: Output => e.asInstanceOf[Output].id
                             }
-                        val set: List[String] = newAc.getOrElse(id, Nil) :+ ("n" + counter)
+                        val set: List[String] = newAc.getOrElse(id, Nil) :+ (prefix + counter)
                         newAc = newAc + (id -> set)
                     }
-                    componentsForAlgebra(xs, newAc, counter + 1)
-                case Input(id) => componentsForAlgebra(xs, newAccSingle(id), counter)
-                case Output(id) => componentsForAlgebra(xs, newAccSingle(id), counter)
+                    componentsForAlgebra(xs, newAc, prefix, counter + 1)
+                case Input(id) => componentsForAlgebra(xs, newAccSingle(id), prefix, counter)
+                case Output(id) => componentsForAlgebra(xs, newAccSingle(id), prefix, counter)
                 case _ => throw new IllegalStateException("element: "+x)
             }
             case Nil => acc
         }
     }
 
-    def componentsForAlgebra(components: List[Expression], counter: Int = 1): Map[String, List[String]] = {
+    def componentsForAlgebra(components: List[Expression], prefix: String = ""): Map[String, List[String]] = {
         def reduceList(s: List[String]): List[String] = {
             (s.filter(_ != "1") :+ s.count(_ == "1").toString).filter(_ != "0")
         }
-        componentsForAlgebra(components, Map.empty[String, List[String]], counter).map(el => (el._1, reduceList(el._2)))
+        val prefix1 = if (prefix.isEmpty) RandomStringUtils.randomAlphabetic(3) else prefix
+        componentsForAlgebra(components, Map.empty[String, List[String]], prefix1, 0).map(el => (el._1, reduceList(el._2)))
     }
 }
