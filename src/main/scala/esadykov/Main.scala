@@ -27,7 +27,8 @@ object Main {
     }
 
     private[this] val Prompt =
-        """type 'exit' for quit the application
+        """
+          |type 'exit' for quit the application
           |type 'connect 1.A 3.Dc' for connect socket A of the net 1 with socket Dc of the net 3
         """.stripMargin
 
@@ -35,13 +36,15 @@ object Main {
      * Interaction with user.
      * Method assumes that nets are open and syntactic compatible.
      */
-    private def interactiveMode(nets: List[WorkflowNet]) {
+    private def interactiveMode(nets0: List[WorkflowNet]) {
         def availableSocketsString(net: WorkflowNet): String =
-            "Available sockets: " + net.sockets.map(_.name).mkString(" ")
+            "Available sockets: " + net.sockets
+                .map(node => if (node.input) "?"+node.name else "!"+node.name)
+                .mkString(" ")
 
         @tailrec
-        def mainLoop(message: String = "") {
-            println(if (message.isEmpty) Prompt else message + Prompt)
+        def mainLoop(nets: List[WorkflowNet], message: String = "") {
+            println(if (message.isEmpty) Prompt else message + "\n" + Prompt)
             var counter = 1
             for (n <- nets) {
                 println(counter + ". " + availableSocketsString(n))
@@ -52,22 +55,40 @@ object Main {
             read match {
                 case Pattern(g) =>
                     val args: Array[String] = g.split(" ").filter(_ != "")
-                    if (args.length != 2) mainLoop("Wrong number of arguments\n")
+                    if (args.length != 2) mainLoop(nets, "Wrong number of arguments\n")
                     else {
-                        val connection: ((Int, String), (Int, String)) = {
-                            val mapRes: Array[Array[String]] = args.map(_.split("\\."))
-                            ((mapRes(0)(0).toInt, mapRes(0)(1)), (mapRes(1)(0).toInt, mapRes(1)(1)))
+                        val mapRes: Array[Array[String]] = args.map(_.split("\\."))
+                        val firstNetIndex: Int = mapRes(0)(0).toInt - 1
+                        val secondNetIndex: Int = mapRes(1)(0).toInt - 1
+                        val firstSocket: String = mapRes(0)(1)
+                        val secondSocket: String = mapRes(1)(1)
+                        val connectionResult: Boolean = tryConnect(nets(firstNetIndex), nets(secondNetIndex), Set(firstSocket), Set(secondSocket))
+                        var newNets: List[WorkflowNet] = Nil
+                        if (connectionResult) {
+                            var counter = 0
+                            for (n <- nets) {
+                                if (counter == firstNetIndex) {
+                                    newNets = newNets :+ nets(firstNetIndex).netWithoutSockets(Set(firstSocket))
+                                } else if (counter == secondNetIndex) {
+                                    newNets = newNets :+ nets(secondNetIndex).netWithoutSockets(Set(secondSocket))
+                                } else {
+                                    newNets = newNets :+ n
+                                }
+                                counter = counter + 1
+                            }
+                        } else {
+                            newNets = nets
                         }
-                        println(connection + " is " + tryConnect(nets(connection._1._1 - 1), nets(connection._2._1 - 1),
-                            Set(connection._1._2), Set(connection._2._2)))
-                        mainLoop()
+
+                        if (connectionResult) mainLoop(newNets, "Connected!")
+                        else mainLoop(nets, "Not connected")
                     }
                 case "exit" => ()
-                case _ => mainLoop()
+                case _ => mainLoop(nets)
             }
         }
 
-        mainLoop()
+        mainLoop(nets0)
     }
 
     def tryConnect(net1: WorkflowNet, net2: WorkflowNet,
