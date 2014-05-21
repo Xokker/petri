@@ -38,7 +38,11 @@ object ConsistencyChecker {
 
     private def checkPair(equations0: Equations): Boolean = {
         def makeRow(uniques: IndexedSeq[String], coeff: List[String]): Array[Double] = {
-            uniques.map(s => if (coeff.contains(s) || coeff.contains("-"+s)) 1.0 else 0.0).toArray
+            uniques.map(s => {
+                if (coeff.contains(s)) 1.0
+                else if (coeff.contains("-"+s)) -1.0
+                else 0.0
+            }).toArray
         }
 
         /**
@@ -76,7 +80,7 @@ object ConsistencyChecker {
         println("coeffRank: " + coeffRank + ", augmentedRank: " + augmentedRank)
         if (coeffRank < augmentedRank) false
         else if (coeffRank > augmentedRank) true
-        else if (solve(doubleCoeff, doubleConsts).count(_ < 0) > 0) false
+        else if (coeffRank == uniqueVars.size) solve(doubleCoeff, doubleConsts).count(_ < 0) > 0
         else true
     }
 
