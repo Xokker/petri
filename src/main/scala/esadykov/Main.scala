@@ -59,6 +59,7 @@ object Main {
                         mainLoop(connectionResult.updatedNets, "Connection successful")
                     }
                 case hold: ErrorHolder => mainLoop(nets, hold.message)
+                case EmptyCommand =>mainLoop(nets)
             }
         }
 

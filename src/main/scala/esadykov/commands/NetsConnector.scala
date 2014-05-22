@@ -26,12 +26,12 @@ class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
 
         val firstNet: WorkflowNet = {
             if (firstPair._1 > nets.size)
-                return new ConnectionResult(false, nets, "Index " + firstPair._1 + " is out")
+                return new ConnectionResult(false, nets, "There is no net with index " + firstPair._1)
             nets(firstPair._1 - 1)
         }
         val secondNet: WorkflowNet = {
             if (secondPair._1 > nets.size)
-                return new ConnectionResult(false, nets, "Index " + secondPair._1 + " is out")
+                return new ConnectionResult(false, nets, "There is no net with index " + secondPair._1)
             nets(secondPair._1 - 1)
         }
 

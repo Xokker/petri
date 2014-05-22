@@ -37,6 +37,7 @@ object InputParser {
         input match {
             case Pattern(g) => parseConnect(g)
             case "exit" => ExitCommand
+            case _ => EmptyCommand
         }
     }
 }
