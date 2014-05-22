@@ -1,6 +1,7 @@
 package esadykov.commands
 
 import scala.util.matching.Regex
+import scala.collection.immutable.ListMap
 
 /**
  * @author Ernest Sadykov
@@ -14,7 +15,7 @@ object InputParser {
             new ErrorHolder("Wrong number of arguments (should be at least 2 nets)\n")
         } else {
             val mapRes: Array[Array[String]] = args.map(_.split("\\."))
-            var connections: Map[Int, Set[String]] = Map.empty
+            var connections: ListMap[Int, Set[String]] = ListMap.empty
 
             for (strArray <- mapRes) {
                 if (strArray.length != 2) {

@@ -21,30 +21,22 @@ class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
             throw new IllegalArgumentException
         }
 
-        val iterator: Iterator[(Int, Set[String])] = indexSocketPairs.iterator
-        val firstPair: (Int, Set[String]) = iterator.next()
-        val secondPair: (Int, Set[String]) = iterator.next()
-
-        val firstNet: WorkflowNet = {
-            if (firstPair._1 > nets.size)
-                return new ConnectionResult(false, nets, "There is no net with index " + firstPair._1)
-            nets(firstPair._1 - 1)
+        var netsToWorkWith: List[WorkflowNet] = Nil
+        for (pair <- indexSocketPairs) {
+            if (pair._1 > nets.size) {
+                return new ConnectionResult(false, nets, "There is no net with index " + pair._1)
+            }
+            netsToWorkWith = netsToWorkWith :+ nets(pair._1 - 1)
         }
-        val secondNet: WorkflowNet = {
-            if (secondPair._1 > nets.size)
-                return new ConnectionResult(false, nets, "There is no net with index " + secondPair._1)
-            nets(secondPair._1 - 1)
-        }
+        val lst: List[Set[String]] = indexSocketPairs.map(_._2).toList
+        val connectionResult: String = tryConnect(netsToWorkWith, lst)
 
-        val connectionResult: String = tryConnect(List(firstNet, secondNet), List(firstPair._2, secondPair._2))
         var newNets: List[WorkflowNet] = Nil
         if (connectionResult.isEmpty) {
             var counter = 0
             for (n <- nets) {
-                if (n == firstNet) {
-                    newNets = newNets :+ firstNet.netWithoutSockets(firstPair._2)
-                } else if (n == secondNet) {
-                    newNets = newNets :+ secondNet.netWithoutSockets(secondPair._2)
+                if (netsToWorkWith.contains(n)) {
+                    newNets = newNets :+ n.netWithoutSockets(lst(counter))
                 } else {
                     newNets = newNets :+ n
                 }
