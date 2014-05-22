@@ -10,6 +10,11 @@ import esadykov.math.ConsistencyChecker
  * @since 21.05.2014
  */
 class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
+    // TODO: implement
+    private def checkIOBalance(): String = {
+        ""
+    }
+
     def connect(nets: List[WorkflowNet]): ConnectionResult = {
         if (nets.size < indexSocketPairs.size) {
             throw new IllegalArgumentException
@@ -19,26 +24,29 @@ class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
         val firstPair: (Int, Set[String]) = iterator.next()
         val secondPair: (Int, Set[String]) = iterator.next()
 
-        val firstNetIndex: Int = {
+        val firstNet: WorkflowNet = {
             if (firstPair._1 > nets.size)
                 return new ConnectionResult(false, nets, "Index " + firstPair._1 + " is out")
-            firstPair._1 - 1
+            nets(firstPair._1 - 1)
         }
-        val secondNetIndex: Int = {
+        val secondNet: WorkflowNet = {
             if (secondPair._1 > nets.size)
                 return new ConnectionResult(false, nets, "Index " + secondPair._1 + " is out")
-            secondPair._1 - 1
+            nets(secondPair._1 - 1)
         }
 
-        val connectionResult: Boolean = tryConnect(nets(firstNetIndex), nets(secondNetIndex), firstPair._2, secondPair._2)
+        val ioBalance: String = checkIOBalance()
+        if (!ioBalance.isEmpty) return new ConnectionResult(false, nets, ioBalance)
+
+        val connectionResult: Boolean = tryConnect(firstNet, secondNet, firstPair._2, secondPair._2)
         var newNets: List[WorkflowNet] = Nil
         if (connectionResult) {
             var counter = 0
             for (n <- nets) {
-                if (counter == firstNetIndex) {
-                    newNets = newNets :+ nets(firstNetIndex).netWithoutSockets(firstPair._2)
-                } else if (counter == secondNetIndex) {
-                    newNets = newNets :+ nets(secondNetIndex).netWithoutSockets(secondPair._2)
+                if (n == firstNet) {
+                    newNets = newNets :+ firstNet.netWithoutSockets(firstPair._2)
+                } else if (n == secondNet) {
+                    newNets = newNets :+ secondNet.netWithoutSockets(secondPair._2)
                 } else {
                     newNets = newNets :+ n
                 }
@@ -72,10 +80,4 @@ class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
     }
 }
 
-class ConnectionResult(val success: Boolean,
-                       val updatedNets: List[WorkflowNet],
-                       val error: String = "") {
-    require(success || !error.isEmpty)
 
-    val failed: Boolean = !success
-}
