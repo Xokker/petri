@@ -12,7 +12,6 @@ import esadykov.math.ConsistencyChecker
 class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
 
     /**
-     *
      * @param nets all nets that program works with
      * @return connection result
      */
@@ -33,14 +32,12 @@ class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
 
         var newNets: List[WorkflowNet] = Nil
         if (connectionResult.isEmpty) {
-            var counter = 0
-            for (n <- nets) {
-                if (netsToWorkWith.contains(n)) {
-                    newNets = newNets :+ n.netWithoutSockets(lst(counter))
+            for (i <- 0 until nets.size) {
+                if (indexSocketPairs.contains(i + 1)) {
+                    newNets = newNets :+ nets(i).netWithoutSockets(indexSocketPairs(i + 1))
                 } else {
-                    newNets = newNets :+ n
+                    newNets = newNets :+ nets(i)
                 }
-                counter = counter + 1
             }
             new ConnectionResult(true, newNets)
         } else {
