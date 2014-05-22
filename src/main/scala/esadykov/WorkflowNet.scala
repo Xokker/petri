@@ -14,7 +14,7 @@ import esadykov.math.ConsistencyChecker.AlgebraComponents
  * @author Ernest Sadykov
  * @since 18.05.2014
  */
-class WorkflowNet(val source: NetNode, val sink: NetNode, val sockets: Set[NetNode]) {
+class WorkflowNet(val source: NetNode, val sink: NetNode, val sockets: Set[NetNode], val name: String = "") {
 
     def expression: Expression = {
         val expr: Expression = traverse(
@@ -107,9 +107,10 @@ object WorkflowNet {
             .map(_.asInstanceOf[NetNode])
             .toSet
 
+    private[this] val DefaulName = "Untitled SN"
     def createFromFile(filename: String): WorkflowNet = {
-        val elements: Map[String, NetElement] = XmlNetManager.readNetElements(filename)
+        val (elements, name) = XmlNetManager.readNetElements(filename)
         XmlNetManager.connectNodes(elements)
-        new WorkflowNet(findSource(elements.values), findSink(elements.values), sockets(elements))
+        new WorkflowNet(findSource(elements.values), findSink(elements.values), sockets(elements), name.trim)
     }
 }

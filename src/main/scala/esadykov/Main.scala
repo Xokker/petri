@@ -26,11 +26,11 @@ object Main {
     }
 
     private def printNetsInfo(nets: List[WorkflowNet]) {
-        println("Read " + nets.size + " nets")
+        println("Read " + nets.size + " nets: " + nets.map(_.name).mkString(", "))
         println("Generated expressions:")
         var counter = 0
         for (n <- nets) {
-            println(counter + ". " + n.expression)
+            println((counter + 1) + ". [" + n.name + "] " + n.expression)
             counter = counter + 1
         }
         println()
@@ -51,7 +51,7 @@ object Main {
             if (!message.isEmpty) println(message + "\n")
             var counter = 1
             for (n <- nets) {
-                println(counter + ". " + availableSocketsString(n))
+                println(counter + ". [" + n.name + "] " + availableSocketsString(n))
                 counter = counter + 1
             }
             val read = readLine(">")
