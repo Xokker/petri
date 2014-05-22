@@ -11,11 +11,6 @@ import esadykov.math.ConsistencyChecker
  */
 class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
 
-    // TODO: implement
-    private def checkIOBalance(nets: List[WorkflowNet]): String = {
-        ""
-    }
-
     /**
      *
      * @param nets all nets that program works with
@@ -40,9 +35,6 @@ class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
                 return new ConnectionResult(false, nets, "There is no net with index " + secondPair._1)
             nets(secondPair._1 - 1)
         }
-
-        val ioBalance: String = checkIOBalance(nets)
-        if (!ioBalance.isEmpty) return new ConnectionResult(false, nets, ioBalance)
 
         val connectionResult: String = tryConnect(List(firstNet, secondNet), List(firstPair._2, secondPair._2))
         var newNets: List[WorkflowNet] = Nil
@@ -69,19 +61,22 @@ class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
      */
     private def tryConnect(nets: List[WorkflowNet], sockets: List[Set[String]]): String = {
         def findInput(): Int = {
+            var res = -1
             for {i <- 0 until nets.length
                  s <- sockets(i)
                  if nets(i).sockets.exists(node => node.name == s && node.input)} {
                 {
-                    return i
+                    if (res != -1 || sockets(i).size != 1) return -2
+                    else res = i
                 }
             }
-            -1
+            res
         }
         assert(nets.size == sockets.size)
 
         val inputIndex: Int = findInput()
-        assert(inputIndex != -1)
+        if (inputIndex == -2) return "Multiple input sockets forbidden"
+        else if (inputIndex == -1) return "No input socket"
 
         val newId = RandomStringUtils.randomAlphabetic(3)
 
