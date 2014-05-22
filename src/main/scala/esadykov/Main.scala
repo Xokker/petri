@@ -20,14 +20,21 @@ object Main {
 
         val nets: List[WorkflowNet] = args.map(WorkflowNet.createFromFile).toList
 
+        println("Type 'help' to get usage instructions")
+        printNetsInfo(nets)
         interactiveMode(nets)
     }
 
-    private[this] val Prompt =
-        """
-          |type 'exit' for quit the application
-          |type 'connect 1.A 3.Dc' for connect socket A of the net 1 with socket Dc of the net 3
-        """.stripMargin
+    private def printNetsInfo(nets: List[WorkflowNet]) {
+        println("Read " + nets.size + " nets")
+        println("Generated expressions:")
+        var counter = 0
+        for (n <- nets) {
+            println(counter + ". " + n.expression)
+            counter = counter + 1
+        }
+        println()
+    }
 
     /**
      * Interaction with user.
@@ -41,13 +48,13 @@ object Main {
 
         @tailrec
         def mainLoop(nets: List[WorkflowNet], message: String = "") {
-            println(if (message.isEmpty) Prompt else message + "\n" + Prompt)
+            if (!message.isEmpty) println(message + "\n")
             var counter = 1
             for (n <- nets) {
                 println(counter + ". " + availableSocketsString(n))
                 counter = counter + 1
             }
-            val read = readLine()
+            val read = readLine(">")
             if (read == null) return // Ctrl-C handle
             val command: Command = InputParser.parseInput(read)
             command match {
@@ -60,7 +67,8 @@ object Main {
                         mainLoop(connectionResult.updatedNets, "Connection successful")
                     }
                 case hold: ErrorHolder => mainLoop(nets, hold.message)
-                case EmptyCommand =>mainLoop(nets)
+                case EmptyCommand => mainLoop(nets)
+                case HelpCommand => mainLoop(nets, HelpCommand.HelpPrompt)
             }
         }
 

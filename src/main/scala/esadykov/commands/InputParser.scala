@@ -40,6 +40,7 @@ object InputParser {
         input.trim() match {
             case Pattern(g) => parseConnect(g)
             case "exit" => ExitCommand
+            case "help" => HelpCommand
             case "" => EmptyCommand
             case _ => new ErrorHolder("Unknown command")
         }
