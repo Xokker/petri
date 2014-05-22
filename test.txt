@@ -1,0 +1,3 @@
+connect 1.C 3.K 2.C
+connect 1.B 2.B
+build /Users/ernest/eclipse/runtime-EclipseApplication/nets/adapters4.npnets

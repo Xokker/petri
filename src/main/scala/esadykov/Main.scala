@@ -23,7 +23,11 @@ object Main {
 
         println("Type 'help' to get usage instructions")
         printNetsInfo(nets)
-        interactiveMode(nets, Map.empty)
+
+        val modelMap: Map[String, (Int, Int, Int, Int)] = nets.flatMap(_.model)
+            .foldLeft(Map.empty[String, (Int, Int, Int, Int)])((m, pair) => m + (pair._1 -> pair._2))
+
+        interactiveMode(nets, modelMap)
     }
 
     private def printNetsInfo(nets: Seq[WorkflowNet]) {
@@ -41,7 +45,7 @@ object Main {
      * Interaction with user.
      * Method assumes that nets are open and syntactic compatible.
      */
-    private def interactiveMode(nets0: IndexedSeq[WorkflowNet], modelData: Map[NetNode, (Int, Int, Int, Int)]) {
+    private def interactiveMode(nets0: IndexedSeq[WorkflowNet], modelData: Map[String, (Int, Int, Int, Int)]) {
         def availableSocketsString(net: WorkflowNet): String =
             "Available sockets: " + net.sockets
                 .map(node => if (node.input) "?" + node.name else "!" + node.name)

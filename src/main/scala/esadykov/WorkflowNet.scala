@@ -14,7 +14,8 @@ import esadykov.math.ConsistencyChecker.AlgebraComponents
  * @author Ernest Sadykov
  * @since 18.05.2014
  */
-class WorkflowNet(val source: NetNode, val sink: NetNode, val sockets: Set[NetNode], val name: String = "") {
+class WorkflowNet(val source: NetNode, val sink: NetNode, val sockets: Set[NetNode],
+                  val name: String = "", val model: Map[String, (Int, Int, Int, Int)] = Map.empty) {
 
     def expression: Expression = {
         val expr: Expression = traverse(
@@ -68,7 +69,7 @@ class WorkflowNet(val source: NetNode, val sink: NetNode, val sockets: Set[NetNo
     }
 
     def netWithoutSockets(socketsOut: Set[String]): WorkflowNet =
-        new FilteredWorkflowNet(source, sink, sockets.filterNot(n => socketsOut.contains(n.name)), socketsOut, name)
+        new FilteredWorkflowNet(source, sink, sockets.filterNot(n => socketsOut.contains(n.name)), socketsOut, name, model)
 
     def canEqual(other: Any): Boolean = other.isInstanceOf[WorkflowNet]
 
@@ -109,8 +110,8 @@ object WorkflowNet {
 
     private[this] val DefaulName = "Untitled SN"
     def createFromFile(filename: String): WorkflowNet = {
-        val (elements, name) = XmlNetManager.readNetElements(filename)
+        val (elements, name, modelInfo) = XmlNetManager.readNetElements(filename)
         XmlNetManager.connectNodes(elements)
-        new WorkflowNet(findSource(elements.values), findSink(elements.values), sockets(elements), name.trim)
+        new WorkflowNet(findSource(elements.values), findSink(elements.values), sockets(elements), name.trim, modelInfo)
     }
 }
