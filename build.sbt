@@ -12,4 +12,6 @@ libraryDependencies += "org.apache.commons" % "commons-lang3" % "3.3.2"
 
 org.scalastyle.sbt.ScalastylePlugin.Settings
 
+com.github.retronym.SbtOneJar.oneJarSettings
+
 resolvers += "Sonatype Releases" at "https://oss.sonatype.org/content/repositories/releases/"
