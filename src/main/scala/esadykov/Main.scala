@@ -18,14 +18,14 @@ object Main {
             sys.exit(-1)
         }
 
-        val nets: List[WorkflowNet] = args.map(WorkflowNet.createFromFile).toList
+        val nets: IndexedSeq[WorkflowNet] = args.map(WorkflowNet.createFromFile)
 
         println("Type 'help' to get usage instructions")
         printNetsInfo(nets)
         interactiveMode(nets)
     }
 
-    private def printNetsInfo(nets: List[WorkflowNet]) {
+    private def printNetsInfo(nets: Seq[WorkflowNet]) {
         println("Read " + nets.size + " nets: " + nets.map(_.name).mkString(", "))
         println("Generated expressions:")
         var counter = 0
@@ -40,14 +40,14 @@ object Main {
      * Interaction with user.
      * Method assumes that nets are open and syntactic compatible.
      */
-    private def interactiveMode(nets0: List[WorkflowNet]) {
+    private def interactiveMode(nets0: IndexedSeq[WorkflowNet]) {
         def availableSocketsString(net: WorkflowNet): String =
             "Available sockets: " + net.sockets
                 .map(node => if (node.input) "?" + node.name else "!" + node.name)
                 .mkString(" ")
 
         @tailrec
-        def mainLoop(nets: List[WorkflowNet], message: String = "") {
+        def mainLoop(nets: IndexedSeq[WorkflowNet], message: String = "") {
             if (!message.isEmpty) println(message + "\n")
             var counter = 1
             for (n <- nets) {

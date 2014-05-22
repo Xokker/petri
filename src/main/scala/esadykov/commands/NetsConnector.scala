@@ -15,7 +15,7 @@ class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
      * @param nets all nets that program works with
      * @return connection result
      */
-    def connect(nets: List[WorkflowNet]): ConnectionResult = {
+    def connect(nets: IndexedSeq[WorkflowNet]): ConnectionResult = {
         if (nets.size < indexSocketPairs.size) {
             throw new IllegalArgumentException
         }
@@ -30,15 +30,15 @@ class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
         val lst: List[Set[String]] = indexSocketPairs.map(_._2).toList
         val connectionResult: String = tryConnect(netsToWorkWith, lst)
 
-        var newNets: List[WorkflowNet] = Nil
         if (connectionResult.isEmpty) {
-            for (i <- 0 until nets.size) {
-                if (indexSocketPairs.contains(i + 1)) {
-                    newNets = newNets :+ nets(i).netWithoutSockets(indexSocketPairs(i + 1))
-                } else {
-                    newNets = newNets :+ nets(i)
+            val newNets: IndexedSeq[WorkflowNet] =
+                for (i <- 0 until nets.size) yield {
+                    if (indexSocketPairs.contains(i + 1)) {
+                        nets(i).netWithoutSockets(indexSocketPairs(i + 1))
+                    } else {
+                        nets(i)
+                    }
                 }
-            }
             new ConnectionResult(true, newNets)
         } else {
             new ConnectionResult(false, nets, connectionResult)

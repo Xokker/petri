@@ -7,7 +7,7 @@ import esadykov.WorkflowNet
  * @since 22.05.2014
  */
 class ConnectionResult(val success: Boolean,
-                       val updatedNets: List[WorkflowNet],
+                       val updatedNets: IndexedSeq[WorkflowNet],
                        val error: String = "") {
     require(success || !error.isEmpty)
 
