@@ -4,12 +4,27 @@ import esadykov.WorkflowNet
 import org.apache.commons.lang3.RandomStringUtils
 import esadykov.math.ConsistencyChecker._
 import esadykov.math.ConsistencyChecker
+import esadykov.nets.NetNode
 
 /**
  * @author Ernest Sadykov
  * @since 21.05.2014
  */
 class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
+
+    def findInput(nets: IndexedSeq[WorkflowNet], sockets: List[Set[String]]): Int = {
+        assert(nets.size == sockets.size)
+        var res = -1
+        for {i <- 0 until nets.length
+             s <- sockets(i)
+             if nets(i).sockets.exists(node => node.name == s && node.input)} {
+            {
+                if (res != -1 || sockets(i).size != 1) return -2
+                else res = i
+            }
+        }
+        res
+    }
 
     /**
      * @param nets all nets that program works with
@@ -20,7 +35,7 @@ class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
             throw new IllegalArgumentException
         }
 
-        var netsToWorkWith: List[WorkflowNet] = Nil
+        var netsToWorkWith: IndexedSeq[WorkflowNet] = IndexedSeq.empty
         for (pair <- indexSocketPairs) {
             if (pair._1 > nets.size) {
                 return new ConnectionResult(false, nets, "There is no net with index " + pair._1)
@@ -28,18 +43,25 @@ class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
             netsToWorkWith = netsToWorkWith :+ nets(pair._1 - 1)
         }
         val lst: List[Set[String]] = indexSocketPairs.map(_._2).toList
-        val connectionResult: String = tryConnect(netsToWorkWith, lst)
+
+        val inputIndex: Int = findInput(netsToWorkWith, lst)
+        if (inputIndex == -2) return new ConnectionResult(false, nets, "Multiple input sockets forbidden")
+        else if (inputIndex == -1) return new ConnectionResult(false, nets, "No input socket")
+
+        val connectionResult: String = tryConnect(netsToWorkWith, lst, inputIndex)
 
         if (connectionResult.isEmpty) {
             val newNets: IndexedSeq[WorkflowNet] =
                 for (i <- 0 until nets.size) yield {
-                    if (indexSocketPairs.contains(i + 1)) {
-                        nets(i).netWithoutSockets(indexSocketPairs(i + 1))
-                    } else {
-                        nets(i)
-                    }
+                    if (indexSocketPairs.contains(i + 1)) nets(i).netWithoutSockets(indexSocketPairs(i + 1))
+                    else nets(i)
                 }
-            new ConnectionResult(true, newNets)
+
+            val inputSocket: NetNode = netsToWorkWith(inputIndex).sockets.find(_.name == indexSocketPairs(inputIndex + 1).head).get
+            for (i <- 0 until netsToWorkWith.size) {
+
+            }
+            new ConnectionResult(true, newNets, inputSocket = inputSocket)
         } else {
             new ConnectionResult(false, nets, connectionResult)
         }
@@ -48,24 +70,7 @@ class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
     /**
      * @return empty string if everything is fine, otherwise reason of the failure
      */
-    private def tryConnect(nets: List[WorkflowNet], sockets: List[Set[String]]): String = {
-        def findInput(): Int = {
-            var res = -1
-            for {i <- 0 until nets.length
-                 s <- sockets(i)
-                 if nets(i).sockets.exists(node => node.name == s && node.input)} {
-                {
-                    if (res != -1 || sockets(i).size != 1) return -2
-                    else res = i
-                }
-            }
-            res
-        }
-        assert(nets.size == sockets.size)
-
-        val inputIndex: Int = findInput()
-        if (inputIndex == -2) return "Multiple input sockets forbidden"
-        else if (inputIndex == -1) return "No input socket"
+    private def tryConnect(nets: IndexedSeq[WorkflowNet], sockets: List[Set[String]], inputIndex: Int): String = {
 
         val newId = RandomStringUtils.randomAlphabetic(3)
 
