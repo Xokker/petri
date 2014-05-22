@@ -48,6 +48,7 @@ object Main {
                 counter = counter + 1
             }
             val read = readLine()
+            if (read == null) return // Ctrl-C handle
             val command: Command = InputParser.parseInput(read)
             command match {
                 case ExitCommand => ()

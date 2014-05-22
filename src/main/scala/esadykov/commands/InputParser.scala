@@ -26,6 +26,9 @@ object InputParser {
                 } catch {
                     case e: NumberFormatException => return new ErrorHolder("There is no petri net number " + strArray(0))
                 }
+                if (connections.contains(netIndex)) {
+                    return new ErrorHolder("Multiple arguments with same index")
+                }
                 connections = connections + (netIndex -> sockets)
             }
             new NetsConnector(connections)
@@ -34,10 +37,11 @@ object InputParser {
 
     def parseInput(input: String): Command = {
         val Pattern: Regex = "connect(.*)".r
-        input match {
+        input.trim() match {
             case Pattern(g) => parseConnect(g)
             case "exit" => ExitCommand
-            case _ => EmptyCommand
+            case "" => EmptyCommand
+            case _ => new ErrorHolder("Unknown command")
         }
     }
 }
