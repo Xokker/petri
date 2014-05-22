@@ -57,11 +57,14 @@ class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
                     else nets(i)
                 }
 
-            val inputSocket: NetNode = netsToWorkWith(inputIndex).sockets.find(_.name == indexSocketPairs(inputIndex + 1).head).get
-            for (i <- 0 until netsToWorkWith.size) {
+            val inputSocket: NetNode = netsToWorkWith(inputIndex).sockets.find(_.name == lst(inputIndex).head).get
+            val outSockets: IndexedSeq[NetNode] =
+                for {i <- 0 until netsToWorkWith.size
+                     if i != inputIndex
+                     s <- netsToWorkWith(i).sockets
+                     if lst(i).contains(s.name)} yield s
 
-            }
-            new ConnectionResult(true, newNets, inputSocket = inputSocket)
+            new ConnectionResult(true, newNets, outputSockets = outSockets, inputSocket = inputSocket)
         } else {
             new ConnectionResult(false, nets, connectionResult)
         }

@@ -37,9 +37,11 @@ object InputParser {
     }
 
     def parseInput(input: String): Command = {
-        val Pattern: Regex = "connect(.*)".r
+        val Connect: Regex = "connect(.*)".r
+        val Build: Regex = "build(.*)".r
         input.trim() match {
-            case Pattern(g) => parseConnect(g)
+            case Connect(g) => parseConnect(g)
+            case Build(g) => new BuildAdaptersCommand(g.trim)
             case "exit" => ExitCommand
             case "help" => HelpCommand
             case "" => EmptyCommand

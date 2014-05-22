@@ -2,6 +2,7 @@ package esadykov
 
 import scala.annotation.tailrec
 import esadykov.commands._
+import esadykov.nets.NetNode
 
 /**
  * @author Ernest Sadykov
@@ -22,7 +23,7 @@ object Main {
 
         println("Type 'help' to get usage instructions")
         printNetsInfo(nets)
-        interactiveMode(nets)
+        interactiveMode(nets, Map.empty)
     }
 
     private def printNetsInfo(nets: Seq[WorkflowNet]) {
@@ -40,14 +41,14 @@ object Main {
      * Interaction with user.
      * Method assumes that nets are open and syntactic compatible.
      */
-    private def interactiveMode(nets0: IndexedSeq[WorkflowNet]) {
+    private def interactiveMode(nets0: IndexedSeq[WorkflowNet], modelData: Map[NetNode, (Int, Int, Int, Int)]) {
         def availableSocketsString(net: WorkflowNet): String =
             "Available sockets: " + net.sockets
                 .map(node => if (node.input) "?" + node.name else "!" + node.name)
                 .mkString(" ")
 
         @tailrec
-        def mainLoop(nets: IndexedSeq[WorkflowNet], message: String = "") {
+        def mainLoop(nets: IndexedSeq[WorkflowNet], outputSockets: List[IndexedSeq[NetNode]], inputSocket: List[NetNode], message: String = "") {
             if (!message.isEmpty) println(message + "\n")
             var counter = 1
             for (n <- nets) {
@@ -62,17 +63,19 @@ object Main {
                 case con: NetsConnector =>
                     val connectionResult: ConnectionResult = con.connect(nets)
                     if (connectionResult.failed) {
-                        mainLoop(nets, connectionResult.error)
+                        mainLoop(nets, outputSockets, inputSocket, connectionResult.error)
                     } else {
-                        mainLoop(connectionResult.updatedNets, "Connection successful")
+                        mainLoop(connectionResult.updatedNets, outputSockets :+ connectionResult.outputSockets,
+                            inputSocket :+ connectionResult.inputSocket, "Connection successful")
                     }
-                case hold: ErrorHolder => mainLoop(nets, hold.message)
-                case EmptyCommand => mainLoop(nets)
-                case HelpCommand => mainLoop(nets, HelpCommand.HelpPrompt)
+                case hold: ErrorHolder => mainLoop(nets, outputSockets, inputSocket, hold.message)
+                case EmptyCommand => mainLoop(nets, outputSockets, inputSocket)
+                case HelpCommand => mainLoop(nets, outputSockets, inputSocket, HelpCommand.HelpPrompt)
+                case build: BuildAdaptersCommand => build.buildAdapters(modelData, outputSockets.toIndexedSeq, inputSocket.toIndexedSeq)
             }
         }
 
-        mainLoop(nets0)
+        mainLoop(nets0, Nil, Nil)
     }
 }
 

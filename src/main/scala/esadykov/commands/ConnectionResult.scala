@@ -10,7 +10,7 @@ import esadykov.nets.NetNode
 class ConnectionResult(val success: Boolean,
                        val updatedNets: IndexedSeq[WorkflowNet],
                        val error: String = "",
-                       val outputSockets: Set[NetNode] = Set.empty,
+                       val outputSockets: IndexedSeq[NetNode] = IndexedSeq.empty,
                        val inputSocket: NetNode = null) {
     require(success || !error.isEmpty)
 

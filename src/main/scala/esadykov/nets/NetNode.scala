@@ -24,6 +24,8 @@ class NetNode(uuid: String, _name: String) extends NetElement(uuid) {
     def name: String =
         _name.stripPrefix(InputPrefix).stripPrefix(OutputPrefix).stripPrefix(SocketPrefix)
 
+    def realName: String = _name
+
     override def toString =
         getClass.getSimpleName+"[uuid="+uuid+",name="+name+"," +
             "input="+input+",output="+output+"]"
