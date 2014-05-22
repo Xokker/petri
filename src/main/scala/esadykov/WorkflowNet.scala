@@ -68,7 +68,7 @@ class WorkflowNet(val source: NetNode, val sink: NetNode, val sockets: Set[NetNo
     }
 
     def netWithoutSockets(socketsOut: Set[String]): WorkflowNet =
-        new FilteredWorkflowNet(source, sink, sockets.filterNot(n => socketsOut.contains(n.name)), socketsOut)
+        new FilteredWorkflowNet(source, sink, sockets.filterNot(n => socketsOut.contains(n.name)), socketsOut, name)
 
     def canEqual(other: Any): Boolean = other.isInstanceOf[WorkflowNet]
 

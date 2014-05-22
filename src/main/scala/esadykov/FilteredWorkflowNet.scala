@@ -7,13 +7,13 @@ import esadykov.expressions.{Input, Output, Expression}
  * @author Ernest Sadykov
  * @since 20.05.2014
  */
-class FilteredWorkflowNet(source: NetNode, sink:NetNode, sockets: Set[NetNode], filterOut: Set[String])
-    extends WorkflowNet(source, sink, sockets) {
+class FilteredWorkflowNet(source: NetNode, sink:NetNode, sockets: Set[NetNode], filterOut: Set[String], name: String)
+    extends WorkflowNet(source, sink, sockets, name) {
 
     override def netWithoutSockets(socketsOut: Set[String]): WorkflowNet =
         new FilteredWorkflowNet(source, sink,
                                 sockets.filterNot(n => socketsOut.contains(n.name)),
-                                socketsOut ++ filterOut)
+                                socketsOut ++ filterOut, name)
 
     override protected def findSockets(node: NetNode): Set[Expression] =
         (node.connections
