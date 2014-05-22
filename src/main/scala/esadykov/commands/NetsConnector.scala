@@ -10,11 +10,17 @@ import esadykov.math.ConsistencyChecker
  * @since 21.05.2014
  */
 class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
+
     // TODO: implement
-    private def checkIOBalance(): String = {
+    private def checkIOBalance(nets: List[WorkflowNet]): String = {
         ""
     }
 
+    /**
+     *
+     * @param nets all nets that program works with
+     * @return connection result
+     */
     def connect(nets: List[WorkflowNet]): ConnectionResult = {
         if (nets.size < indexSocketPairs.size) {
             throw new IllegalArgumentException
@@ -35,12 +41,12 @@ class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
             nets(secondPair._1 - 1)
         }
 
-        val ioBalance: String = checkIOBalance()
+        val ioBalance: String = checkIOBalance(nets)
         if (!ioBalance.isEmpty) return new ConnectionResult(false, nets, ioBalance)
 
-        val connectionResult: Boolean = tryConnect(firstNet, secondNet, firstPair._2, secondPair._2)
+        val connectionResult: String = tryConnect(List(firstNet, secondNet), List(firstPair._2, secondPair._2))
         var newNets: List[WorkflowNet] = Nil
-        if (connectionResult) {
+        if (connectionResult.isEmpty) {
             var counter = 0
             for (n <- nets) {
                 if (n == firstNet) {
@@ -54,29 +60,54 @@ class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
             }
             new ConnectionResult(true, newNets)
         } else {
-            new ConnectionResult(false, nets, "Connection failed")
+            new ConnectionResult(false, nets, connectionResult)
         }
     }
 
-    private def tryConnect(net1: WorkflowNet, net2: WorkflowNet,
-                           net1Sockets: Set[String], net2Sockets: Set[String]): Boolean = {
+    /**
+     * @return empty string if everything is fine, otherwise reason of the failure
+     */
+    private def tryConnect(nets: List[WorkflowNet], sockets: List[Set[String]]): String = {
+        def findInput(): Int = {
+            for {i <- 0 until nets.length
+                 s <- sockets(i)
+                 if nets(i).sockets.exists(node => node.name == s && node.input)} {
+                {
+                    return i
+                }
+            }
+            -1
+        }
+        assert(nets.size == sockets.size)
+
+        val inputIndex: Int = findInput()
+        assert(inputIndex != -1)
+
         val newId = RandomStringUtils.randomAlphabetic(3)
 
-        var newComponents1: AlgebraComponents = Nil
-        for {c <- net1.componentsForAlgebra
-             appropriate = c.find(pair => net1Sockets.contains(pair._1))
-             if appropriate.isDefined} {
-            newComponents1 = newComponents1 :+ Map(newId -> appropriate.get._2)
+        var newComponents: List[AlgebraComponents] = Nil
+        for {i <- 0 until nets.length
+             currentNet = nets(i)
+        } {
+            var newComp: AlgebraComponents = Nil
+            for {c <- currentNet.componentsForAlgebra
+                 appropriate = c.find(pair => sockets(i).contains(pair._1))
+                 if appropriate.isDefined
+            } {
+                newComp = newComp :+ Map(newId -> appropriate.get._2)
+            }
+            newComponents = newComponents :+ newComp
         }
 
-        var newComponents2: AlgebraComponents = Nil
-        for {c <- net2.componentsForAlgebra
-             appropriate = c.find(pair => net2Sockets.contains(pair._1))
-             if appropriate.isDefined} {
-            newComponents2 = newComponents2 :+ Map(newId -> appropriate.get._2)
+        for {i <- 0 until nets.length
+             if i != inputIndex
+        } {
+            if (!ConsistencyChecker.check(newComponents(i), newComponents(inputIndex))) {
+                return "Net " + (i + 1) + " is not compatible with net " + (inputIndex + 1)
+            }
         }
 
-        ConsistencyChecker.check(newComponents1, newComponents2)
+        ""
     }
 }
 
