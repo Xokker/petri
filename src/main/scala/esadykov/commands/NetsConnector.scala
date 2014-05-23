@@ -95,7 +95,7 @@ class NetsConnector(indexSocketPairs: Map[Int, Set[String]]) extends Command {
              if i != inputIndex
         } {
             if (!ConsistencyChecker.check(newComponents(i), newComponents(inputIndex))) {
-                return "Net " + (i + 1) + " is not compatible with net " + (inputIndex + 1)
+                return "Sockets of the net " + (i + 1) + " is not compatible with sockets of the net " + (inputIndex + 1)
             }
         }
 

@@ -75,7 +75,15 @@ object Main {
                 case hold: ErrorHolder => mainLoop(nets, outputSockets, inputSocket, hold.message)
                 case EmptyCommand => mainLoop(nets, outputSockets, inputSocket)
                 case HelpCommand => mainLoop(nets, outputSockets, inputSocket, HelpCommand.HelpPrompt)
-                case build: BuildAdaptersCommand => build.buildAdapters(modelData, outputSockets.toIndexedSeq, inputSocket.toIndexedSeq)
+                case build: BuildAdaptersCommand =>
+                    val error =
+                    try {
+                        build.buildAdapters(modelData, outputSockets.toIndexedSeq, inputSocket.toIndexedSeq)
+                        ""
+                    } catch {
+                        case e: Exception => "Error saving file " + build.path
+                    }
+                    mainLoop(nets, outputSockets, inputSocket, error)
             }
         }
 

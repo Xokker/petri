@@ -77,7 +77,7 @@ object ConsistencyChecker {
         val doubleConsts: Array[Double] = equations.map(_._2.toDouble).toArray[Double]
 
         val (coeffRank, augmentedRank) = ranks(doubleCoeff, doubleConsts)
-        println("coeffRank: " + coeffRank + ", augmentedRank: " + augmentedRank)
+//        println("coeffRank: " + coeffRank + ", augmentedRank: " + augmentedRank)
         if (coeffRank < augmentedRank) false
         else if (coeffRank > augmentedRank) true
         else if (coeffRank == uniqueVars.size) solve(doubleCoeff, doubleConsts).find(_ < 0).isEmpty
